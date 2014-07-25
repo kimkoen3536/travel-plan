@@ -26,9 +26,6 @@ public class IntroActivity extends Activity {
 
         setContentView(R.layout.activity_intro);
 
-        final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
-
         Handler h = new Handler();
         h.postDelayed(irun, 4000);
     }
