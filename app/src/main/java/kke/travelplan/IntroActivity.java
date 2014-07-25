@@ -1,16 +1,10 @@
 package kke.travelplan;
 
-import kke.travelplan.util.SystemUiHider;
-
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
-import kke.travelplan.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
