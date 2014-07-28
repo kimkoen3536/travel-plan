@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -211,6 +212,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
+    }
+
+    public void findIdButtonOnClick(View view) {
+        Intent i = new Intent(this, FindIdActivity.class);
+        startActivity(i);
+    }
+
+    public void findPasswordButtonOnClick(View view) {
+        Intent i = new Intent(this, FindPasswordActivity.class);
+        startActivity(i);
     }
 
     /**

@@ -32,5 +32,19 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".FindIdActivity"
+            android:label="@string/title_activity_find_id" >
+        </activity>
+        <activity
+            android:name=".FindPasswordActivity"
+            android:label="@string/title_activity_find_password" >
+        </activity>
+        <activity
+            android:name=".FindIdResultAcitvity"
+            android:label="@string/title_activity_find_id_result_acitvity" >
+        </activity>
     </application>
+
 </manifest>

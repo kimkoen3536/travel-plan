@@ -4,5 +4,9 @@
     <string name="app_name">Travel Plan</string>
     <string name="action_settings">설정</string>
     <string name="title_activity_intro">여행 계획</string>
+    <string name="title_activity_find_id">FindIdActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_find_password">FindPasswordActivity</string>
+    <string name="title_activity_find_id_result_acitvity">FindIdResultAcitvity</string>
 
 </resources>
