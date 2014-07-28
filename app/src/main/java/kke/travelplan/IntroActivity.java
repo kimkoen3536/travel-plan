@@ -14,8 +14,8 @@ public class IntroActivity extends Activity {
     private Runnable irun = new Runnable() {
         public void run() {
             Intent i = new Intent(IntroActivity.this, LoginActivity.class);
-            startActivity(i);
             finish();
+            startActivity(i);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     };
@@ -27,13 +27,7 @@ public class IntroActivity extends Activity {
         setContentView(R.layout.activity_intro);
 
         Handler h = new Handler();
-        h.postDelayed(irun, 4000);
+        h.postDelayed(irun, 3000);
     }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
 
 }
