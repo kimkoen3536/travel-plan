@@ -7,7 +7,8 @@
     <string name="action_sign_in">로그인</string>
     <string name="action_sign_in_short">로그인</string>
     <string name="automatic_login">자동 로그인</string>
-    <string name="find_id_or_password">아이디/비밀번호 찾기</string>
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_password">비밀번호 찾기</string>
     <string name="sign_up">회원 가입</string>
 
     <string name="error_invalid_email">이메일 주소를 바르게 입력하십시오</string>
