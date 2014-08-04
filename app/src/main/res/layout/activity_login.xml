@@ -99,6 +99,7 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:onClick="signUpButtonOnClick"
                 android:text="@string/sign_up" />
 
         </LinearLayout>

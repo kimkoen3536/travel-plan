@@ -53,6 +53,14 @@
             android:name=".FindPasswordResultActivity"
             android:label="FindPasswordResultActivity">
         </activity>
+        <activity
+            android:name=".SignUpFormActivity"
+            android:label="SignUpFormActivity">
+        </activity>
+        <activity
+            android:name=".SignUpResultActivity"
+            android:label="SignUpResultActivity">
+        </activity>
     </application>
 
 </manifest>

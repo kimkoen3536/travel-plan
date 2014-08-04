@@ -6,21 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import kke.travelplan.R;
-
-public class SingUpResultActivity extends Activity {
+public class SignUpResultActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sing_up_result);
+        setContentView(R.layout.activity_sign_up_result);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.sing_up_result, menu);
+        getMenuInflater().inflate(R.menu.sign_up_result, menu);
         return true;
     }
 

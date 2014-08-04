@@ -224,6 +224,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         startActivity(i);
     }
 
+    public void signUpButtonOnClick(View view) {
+        Intent i = new Intent(this, SignUpFormActivity.class);
+        startActivity(i);
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.

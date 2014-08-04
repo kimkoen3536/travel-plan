@@ -7,8 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import kke.travelplan.R;
-
 public class SignUpFormActivity extends Activity {
 
     @Override
@@ -38,7 +36,7 @@ public class SignUpFormActivity extends Activity {
     }
 
     public void confirmButtonOnClick(View view) {
-        Intent i = new Intent(this, SingUpResultActivity.class);
+        Intent i = new Intent(this, SignUpResultActivity.class);
         startActivity(i);
         finish();
     }
