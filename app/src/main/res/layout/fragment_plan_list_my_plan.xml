@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="kke.travelplan.PlanListMyPlanFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="내 계획" />
-
+    <ListView
+        android:id="@+id/plan_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 </FrameLayout>
