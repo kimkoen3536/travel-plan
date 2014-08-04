@@ -45,6 +45,14 @@
             android:name=".FindIdResultAcitvity"
             android:label="@string/title_activity_find_id_result_acitvity" >
         </activity>
+        <activity
+            android:name=".NewPasswordActivity"
+            android:label="NewPasswordActivity">
+        </activity>
+        <activity
+            android:name=".FindPasswordResultActivity"
+            android:label="FindPasswordResultActivity">
+        </activity>
     </application>
 
 </manifest>

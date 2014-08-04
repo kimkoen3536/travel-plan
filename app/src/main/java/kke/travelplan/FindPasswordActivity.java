@@ -1,10 +1,11 @@
 package kke.travelplan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import kke.travelplan.R;
+import android.view.View;
 
 public class FindPasswordActivity extends Activity {
 
@@ -32,5 +33,11 @@ public class FindPasswordActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void confirmButtonOnClick(View view) {
+        Intent i = new Intent(this, NewPasswordActivity.class);
+        startActivity(i);
+        finish();
     }
 }
