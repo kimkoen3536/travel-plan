@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -74,6 +75,10 @@ public class PlanListActivity extends Activity implements ActionBar.TabListener 
         }
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.plan_list,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,6 +88,10 @@ public class PlanListActivity extends Activity implements ActionBar.TabListener 
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id==R.id.action_new){
+            Intent intent = new Intent(this, AddPlanActivity.class);
+            startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -101,6 +110,7 @@ public class PlanListActivity extends Activity implements ActionBar.TabListener 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
