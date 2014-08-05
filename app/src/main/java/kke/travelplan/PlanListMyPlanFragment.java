@@ -5,11 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,6 +38,8 @@ public class PlanListMyPlanFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_plan_list_my_plan, container, false);
         planListView = (ListView) rootView.findViewById(R.id.plan_list_view);
 
+        registerForContextMenu(planListView);
+
         PlanListItemAdapter adapter = new PlanListItemAdapter(getActivity());
         planListView.setAdapter(adapter);
         try {
@@ -43,5 +49,17 @@ public class PlanListMyPlanFragment extends Fragment {
             Log.e("error", "error", e);
         }
         return rootView;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, 1, 0, "수정");
+        menu.add(0, 2, 0, "삭제");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return super.onContextItemSelected(item);
     }
 }
