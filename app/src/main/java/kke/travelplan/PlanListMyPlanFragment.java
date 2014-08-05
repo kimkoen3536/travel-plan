@@ -1,6 +1,7 @@
 package kke.travelplan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +68,11 @@ public class PlanListMyPlanFragment extends Fragment {
                 startActivity(i);
                 return true;
             case 2:
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("'이거'를 정말 삭제하시겠습니까?")
+                        .setPositiveButton("삭제", null)
+                        .setNegativeButton("취소", null)
+                        .show();
         }
         return true;
     }
