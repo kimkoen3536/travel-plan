@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import kke.travelplan.R;
 
@@ -19,6 +20,8 @@ public class SearchPlaceActivity extends Activity {
 
     private LinearLayout recentSearchesLayout;
 
+    private ListView recentSearchesListView;
+
     private LinearLayout searchResultsLayout;
 
     @Override
@@ -28,7 +31,16 @@ public class SearchPlaceActivity extends Activity {
         searchEditText = (EditText) findViewById(R.id.search_edit_text);
         searchButton = (Button) findViewById(R.id.search_button);
         recentSearchesLayout = (LinearLayout) findViewById(R.id.recent_searches_layout);
+        recentSearchesListView = (ListView) findViewById(R.id.recent_searches_list_view);
         searchResultsLayout = (LinearLayout) findViewById(R.id.search_results_layout);
+
+        RecentSearchAdapter recentAdapter = new RecentSearchAdapter(this);
+        recentAdapter.add(new SearchItem("한라산"));
+        recentAdapter.add(new SearchItem("백두산"));
+        recentAdapter.add(new SearchItem("북한산"));
+        recentAdapter.add(new SearchItem("남해"));
+        recentAdapter.add(new SearchItem("서해"));
+        recentSearchesListView.setAdapter(recentAdapter);
     }
 
 

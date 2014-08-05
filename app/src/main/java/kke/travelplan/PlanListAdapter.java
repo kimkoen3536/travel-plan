@@ -15,7 +15,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
     private final Context context;
 
     public PlanListAdapter(Context context) {
-        super(context, R.layout.plan_list_view);
+        super(context, R.layout.adapter_plan);
         this.context = context;
     }
 
@@ -23,7 +23,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Plan plan = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.plan_list_view, parent, false);
+        View itemView = inflater.inflate(R.layout.adapter_plan, parent, false);
         TextView planNameTextView = (TextView) itemView.findViewById(R.id.plan_name_textview);
         planNameTextView.setText(plan.getName());
         TextView planDateRangeTextView = (TextView) itemView.findViewById(R.id.plan_date_range_textview);

@@ -43,6 +43,13 @@
                 android:layout_height="wrap_content"
                 android:text="최근 검색어" />
 
+            <ListView
+                android:id="@+id/recent_searches_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
         </LinearLayout>
 
         <LinearLayout

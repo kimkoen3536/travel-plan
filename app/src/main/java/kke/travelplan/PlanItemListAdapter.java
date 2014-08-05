@@ -13,7 +13,7 @@ public class PlanItemListAdapter extends ArrayAdapter<PlanItem> {
     private final Context context;
 
     public PlanItemListAdapter(Context context) {
-        super(context, R.layout.plan_item_list_view);
+        super(context, R.layout.adapter_plan_item);
         this.context = context;
 
     }
@@ -22,7 +22,7 @@ public class PlanItemListAdapter extends ArrayAdapter<PlanItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
        PlanItem item = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.plan_item_list_view, parent, false);
+        View itemView = inflater.inflate(R.layout.adapter_plan_item, parent, false);
         ImageView typeImageView = (ImageView)itemView.findViewById(R.id.type_image_view);
         TextView nameTextView = (TextView)itemView.findViewById(R.id.name_text_view);
         TextView addressTextView = (TextView)itemView.findViewById(R.id.address_text_view);
