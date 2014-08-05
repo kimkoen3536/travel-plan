@@ -74,7 +74,7 @@
             android:label="@string/title_activity_edit_plan" >
         </activity>
         <activity
-            android:name=".PlanItemListActivity"
+            android:name=".PlanItemsActivity"
             android:label="@string/title_activity_plan_item_list" >
         </activity>
     </application>

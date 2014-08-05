@@ -48,7 +48,7 @@ public class MyPlansFragment extends Fragment {
         planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(getActivity(), PlanItemListActivity.class);
+                Intent i = new Intent(getActivity(), PlanItemsActivity.class);
                 startActivity(i);
             }
         });

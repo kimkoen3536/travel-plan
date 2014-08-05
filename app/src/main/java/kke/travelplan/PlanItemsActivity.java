@@ -8,9 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import kke.travelplan.R;
-
-public class PlanItemListActivity extends Activity {
+public class PlanItemsActivity extends Activity {
     private Spinner dateSpinner;
 
     private ListView planItemListView;
@@ -18,7 +16,7 @@ public class PlanItemListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_item_list);
+        setContentView(R.layout.activity_plan_items);
         dateSpinner = (Spinner) findViewById(R.id.date_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         adapter.add("2014-08-01");
