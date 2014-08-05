@@ -75,7 +75,11 @@
         </activity>
         <activity
             android:name=".PlanItemsActivity"
-            android:label="@string/title_activity_plan_item_list" >
+            android:label="@string/title_activity_plan_items" >
+        </activity>
+        <activity
+            android:name=".SearchPlaceActivity"
+            android:label="@string/title_activity_search_place" >
         </activity>
     </application>
 

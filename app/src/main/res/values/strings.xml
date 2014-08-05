@@ -16,6 +16,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_plan">AddPlanActivity</string>
     <string name="title_activity_edit_plan">EditPlanActivity</string>
-    <string name="title_activity_plan_item_list">PlanItemListActivity</string>
+    <string name="title_activity_plan_items">PlanItemsActivity</string>
+    <string name="title_activity_search_place">SearchPlaceActivity</string>
 
 </resources>
