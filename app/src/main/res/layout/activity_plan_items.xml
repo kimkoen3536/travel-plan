@@ -35,10 +35,4 @@
         </ListView>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/context_menu_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
 </RelativeLayout>

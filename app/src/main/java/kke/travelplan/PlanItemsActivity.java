@@ -1,7 +1,11 @@
 package kke.travelplan;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,11 +16,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 public class PlanItemsActivity extends Activity {
+    private static final String[] actionNewTypes = { "목적지 추가", "이동수단 추가" };
+
     private Spinner dateSpinner;
 
     private ListView planItemListView;
-
-    private Button contextMenuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,6 @@ public class PlanItemsActivity extends Activity {
         itemAdapter.add(new PlanItem("한라산", "제주도서귀포시", "관광"));
         itemAdapter.add(new PlanItem("까페베네", "계룡엄사면", "음식"));
         planItemListView.setAdapter(itemAdapter);
-
-        contextMenuButton = (Button) findViewById(R.id.context_menu_button);
-        registerForContextMenu(contextMenuButton);
     }
 
 
@@ -58,36 +59,19 @@ public class PlanItemsActivity extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_new) {
+            new AlertDialog.Builder(this)
+                    .setItems(actionNewTypes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                Intent i = new Intent(PlanItemsActivity.this, SearchPlaceActivity.class);
+                                startActivity(i);
+                            }
+                        }
+                    }).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.context_menu_button) {
-            menu.add(0, 1, 0, "목적지 추가");
-            menu.add(0, 2, 0, "이동수단 추가");
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 1:
-                return true;
-            case 2:
-                return true;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_new:
-                openContextMenu(contextMenuButton);
-                return true;
-        }
-        return true;
     }
 }

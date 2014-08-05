@@ -8,9 +8,57 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="kke.travelplan.SearchPlaceActivity">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="장소" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="검색"
+                android:onClick="searchButtonOnClick" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recent_searches_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최근 검색어" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/search_results_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="검색 결과" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
