@@ -69,6 +69,10 @@
             android:name=".AddPlanActivity"
             android:label="@string/title_activity_add_plan" >
         </activity>
+        <activity
+            android:name=".EditPlanActivity"
+            android:label="@string/title_activity_edit_plan" >
+        </activity>
     </application>
 
 </manifest>

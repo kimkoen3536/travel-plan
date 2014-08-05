@@ -1,6 +1,7 @@
 package kke.travelplan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -60,6 +61,13 @@ public class PlanListMyPlanFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        return super.onContextItemSelected(item);
+        switch (item.getItemId()) {
+            case 1:
+                Intent i = new Intent(getActivity(), EditPlanActivity.class);
+                startActivity(i);
+                return true;
+            case 2:
+        }
+        return true;
     }
 }
