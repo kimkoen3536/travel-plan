@@ -62,8 +62,8 @@
             android:label="SignUpResultActivity" >
         </activity>
         <activity
-            android:name=".PlanListActivity"
-            android:label="@string/title_activity_plan_list" >
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
         </activity>
         <activity
             android:name=".AddPlanActivity"
@@ -72,6 +72,10 @@
         <activity
             android:name=".EditPlanActivity"
             android:label="@string/title_activity_edit_plan" >
+        </activity>
+        <activity
+            android:name=".PlanItemListActivity"
+            android:label="@string/title_activity_plan_item_list" >
         </activity>
     </application>
 

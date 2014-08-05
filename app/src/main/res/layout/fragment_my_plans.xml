@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kke.travelplan.PlanListMyPlanFragment">
+    tools:context="kke.travelplan.MyPlansFragment">
 
     <ListView
         android:id="@+id/plan_list_view"

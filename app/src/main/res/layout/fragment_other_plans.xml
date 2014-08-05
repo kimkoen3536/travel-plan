@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kke.travelplan.PlanListFavoritesFragment">
+    tools:context="kke.travelplan.OtherPlansFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="즐겨찾기" />
+        android:text="다른 계획 검색" />
 
 </FrameLayout>

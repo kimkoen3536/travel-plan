@@ -1,14 +1,12 @@
 package kke.travelplan;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PlanListFavoritesFragment extends Fragment {
+public class OtherPlansFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -24,18 +22,18 @@ public class PlanListFavoritesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PlanListFavoritesFragment.
+     * @return A new instance of fragment PlanListOtherFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PlanListFavoritesFragment newInstance(String param1, String param2) {
-        PlanListFavoritesFragment fragment = new PlanListFavoritesFragment();
+    public static OtherPlansFragment newInstance(String param1, String param2) {
+        OtherPlansFragment fragment = new OtherPlansFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
-    public PlanListFavoritesFragment() {
+    public OtherPlansFragment() {
         // Required empty public constructor
     }
 
@@ -52,6 +50,6 @@ public class PlanListFavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_plan_list_favorites, container, false);
+        return inflater.inflate(R.layout.fragment_other_plans, container, false);
     }
 }

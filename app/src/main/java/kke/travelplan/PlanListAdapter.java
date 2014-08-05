@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
-public class PlanListItemAdapter extends ArrayAdapter<Plan> {
+public class PlanListAdapter extends ArrayAdapter<Plan> {
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     private final Context context;
 
-    public PlanListItemAdapter(Context context) {
-        super(context, R.layout.plan_list_item_view);
+    public PlanListAdapter(Context context) {
+        super(context, R.layout.plan_list_view);
         this.context = context;
     }
 
@@ -23,7 +23,7 @@ public class PlanListItemAdapter extends ArrayAdapter<Plan> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Plan plan = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.plan_list_item_view, parent, false);
+        View itemView = inflater.inflate(R.layout.plan_list_view, parent, false);
         TextView planNameTextView = (TextView) itemView.findViewById(R.id.plan_name_textview);
         planNameTextView.setText(plan.getName());
         TextView planDateRangeTextView = (TextView) itemView.findViewById(R.id.plan_date_range_textview);

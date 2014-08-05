@@ -11,14 +11,10 @@ import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class PlanListActivity extends Activity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -126,13 +122,13 @@ public class PlanListActivity extends Activity implements ActionBar.TabListener 
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new PlanListMyPlanFragment();
+                    return new MyPlansFragment();
                 case 1:
-                    return new PlanListOtherFragment();
+                    return new OtherPlansFragment();
                 case 2:
-                    return new PlanListFavoritesFragment();
+                    return new FavoritesFragment();
                 case 3:
-                    return new PlanListSettingsFragment();
+                    return new SettingsFragment();
             }
             return null;
         }

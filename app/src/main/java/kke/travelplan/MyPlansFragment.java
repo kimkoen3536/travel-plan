@@ -1,9 +1,7 @@
 package kke.travelplan;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -13,20 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class PlanListMyPlanFragment extends Fragment {
+public class MyPlansFragment extends Fragment {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     private ListView planListView;
 
-    public PlanListMyPlanFragment() {
+    public MyPlansFragment() {
     }
 
     @Override
@@ -37,12 +32,12 @@ public class PlanListMyPlanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_plan_list_my_plan, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_my_plans, container, false);
         planListView = (ListView) rootView.findViewById(R.id.plan_list_view);
 
         registerForContextMenu(planListView);
 
-        PlanListItemAdapter adapter = new PlanListItemAdapter(getActivity());
+        PlanListAdapter adapter = new PlanListAdapter(getActivity());
         planListView.setAdapter(adapter);
         try {
             adapter.add(new Plan("제주도 여행기", df.parse("2014-07-01"), df.parse("2014-07-20")));
@@ -50,6 +45,13 @@ public class PlanListMyPlanFragment extends Fragment {
         } catch (ParseException e) {
             Log.e("error", "error", e);
         }
+        planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getActivity(), PlanItemListActivity.class);
+                startActivity(i);
+            }
+        });
         return rootView;
     }
 
