@@ -81,6 +81,10 @@
             android:name=".SearchPlaceActivity"
             android:label="@string/title_activity_search_place" >
         </activity>
+        <activity
+            android:name=".AddPlaceActivity"
+            android:label="@string/title_activity_add_place" >
+        </activity>
     </application>
 
 </manifest>

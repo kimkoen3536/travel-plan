@@ -65,7 +65,7 @@ public class PlanItemsActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                Intent i = new Intent(PlanItemsActivity.this, SearchPlaceActivity.class);
+                                Intent i = new Intent(PlanItemsActivity.this, AddPlaceActivity.class);
                                 startActivity(i);
                             }
                         }
