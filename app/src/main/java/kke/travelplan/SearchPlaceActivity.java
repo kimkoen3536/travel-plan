@@ -24,6 +24,8 @@ public class SearchPlaceActivity extends Activity {
 
     private LinearLayout searchResultsLayout;
 
+    private ListView searchResultsListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class SearchPlaceActivity extends Activity {
         recentSearchesLayout = (LinearLayout) findViewById(R.id.recent_searches_layout);
         recentSearchesListView = (ListView) findViewById(R.id.recent_searches_list_view);
         searchResultsLayout = (LinearLayout) findViewById(R.id.search_results_layout);
+        searchResultsListView = (ListView) findViewById(R.id.search_results_list_view);
 
         RecentSearchAdapter recentAdapter = new RecentSearchAdapter(this);
         recentAdapter.add(new SearchItem("한라산"));
@@ -41,6 +44,12 @@ public class SearchPlaceActivity extends Activity {
         recentAdapter.add(new SearchItem("남해"));
         recentAdapter.add(new SearchItem("서해"));
         recentSearchesListView.setAdapter(recentAdapter);
+
+        SearchResultAdapter resultAdapter = new SearchResultAdapter(this);
+        resultAdapter.add(new SearchResultItem("한라산","제주도 땡땡땡땡 땡땡땡땡 1234"));
+        resultAdapter.add(new SearchResultItem("백두산","백두산에있음"));
+        resultAdapter.add(new SearchResultItem("남해","남해 좋아요"));
+        searchResultsListView.setAdapter(resultAdapter);
     }
 
 
