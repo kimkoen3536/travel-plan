@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 public class PlanItemsActivity extends Activity {
-    private static final String[] actionNewTypes = { "목적지 추가", "이동수단 추가" };
+    private static final String[] actionNewTypes = { "목적지 추가" };
 
     private Spinner dateSpinner;
 

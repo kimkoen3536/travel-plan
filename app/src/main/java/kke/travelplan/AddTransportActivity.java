@@ -1,7 +1,6 @@
 package kke.travelplan;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,13 +10,14 @@ import android.widget.Spinner;
 
 import kke.travelplan.R;
 
-public class AddPlaceActivity extends Activity {
+public class AddTransportActivity extends Activity {
 
     private Spinner typeSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_place);
+        setContentView(R.layout.activity_add_transport);
         typeSpinner = (Spinner) findViewById(R.id.place_type_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         adapter.add("관광");
@@ -31,7 +31,7 @@ public class AddPlaceActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_place, menu);
+        getMenuInflater().inflate(R.menu.add_transport, menu);
         return true;
     }
 
@@ -47,18 +47,7 @@ public class AddPlaceActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void searchButtonOnClick(View view) {
-        Intent i = new Intent(this,SearchPlaceActivity.class);
-        startActivity(i);
-    }
-
-    public void addButtonOnClick(View view) {
-     Intent i = new Intent (this,AddTransportActivity.class);
-     startActivity(i);}
-
     public void saveButtonOnClick(View view) {
         finish();
     }
-
 }
