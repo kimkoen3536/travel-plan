@@ -1,38 +1,27 @@
 package kke.travelplan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SearchView;
 
-public class FavoritesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FavoritesFragment extends Fragment implements ListView.OnItemClickListener {
+    private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlanListFavoritesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavoritesFragment newInstance(String param1, String param2) {
-        FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private SearchView searchView;
+
+    private ListView listView;
+
     public FavoritesFragment() {
         // Required empty public constructor
     }
@@ -40,16 +29,37 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_other_plans, container, false);
+        searchView = (SearchView) rootView.findViewById(R.id.search_view);
+        listView = (ListView) rootView.findViewById(R.id.list_view);
+        OtherPlanAdapter adapter = new OtherPlanAdapter(getActivity());
+        adapter.add(new Plan("제주도 여행", parse("2014-01-01"), parse("2015-03-17"), "purluno", 100));
+        adapter.add(new Plan("제도 여행", parse("2013-07-01"), parse("2015-03-17"), "purluo", 10));
+        adapter.add(new Plan("제주 여행", parse("2012-12-31"), parse("2015-03-17"), "purlno", 1));
+        adapter.add(new Plan("주도 여행", parse("2011-05-05"), parse("2015-03-17"), "puruno", 0));
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
+        return rootView;
+    }
+
+    public Date parse(String s) {
+        try {
+            return df.parse(s);
+        } catch (ParseException e) {
+            Log.e("OtherPlansFragment", "날짜 문자열 변환 실패", e);
+            return new Date();
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(getActivity(), OtherPlanActivity.class);
+        startActivity(i);
     }
 }
