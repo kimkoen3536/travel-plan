@@ -86,16 +86,12 @@
             android:label="@string/title_activity_add_place" >
         </activity>
         <activity
-            android:name=".util.AddTransportActivity"
-            android:label="@string/title_activity_add_transport" >
-        </activity>
-        <activity
-            android:name=".AddTransportAcvitivy"
-            android:label="@string/title_activity_add_transport_acvitivy" >
-        </activity>
-        <activity
             android:name=".AddTransportActivity"
             android:label="@string/title_activity_add_transport" >
+        </activity>
+        <activity
+            android:name=".OtherPlanActivity"
+            android:label="다른 계획 검색" >
         </activity>
     </application>
 

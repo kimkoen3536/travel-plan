@@ -2,11 +2,13 @@ package kke.travelplan;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import kke.travelplan.R;
 
@@ -19,10 +21,14 @@ public class AddTransportActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transport);
         typeSpinner = (Spinner) findViewById(R.id.place_type_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        adapter.add("관광");
-        adapter.add("숙박");
-        adapter.add("음식");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.adapter_spinner_item_18);
+        adapter.add("버스");
+        adapter.add("자동차");
+        adapter.add("도보");
+        adapter.add("기차");
+        adapter.add("비행기");
+        adapter.add("배");
+        adapter.add("지하철");
         adapter.add("기타");
         typeSpinner.setAdapter(adapter);
     }
