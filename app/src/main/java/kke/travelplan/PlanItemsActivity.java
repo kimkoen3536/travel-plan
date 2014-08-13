@@ -2,6 +2,7 @@ package kke.travelplan;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 public class PlanItemsActivity extends Activity {
-    private static final String[] actionNewTypes = { "목적지 추가" };
+    private static final String[] actionNewTypes = {"목적지 추가"};
 
     private Spinner dateSpinner;
+
+    private ImageButton likeButton;
 
     private ListView planItemListView;
 
@@ -34,6 +38,9 @@ public class PlanItemsActivity extends Activity {
         adapter.add("2014-08-04");
         adapter.add("2014-08-05");
         dateSpinner.setAdapter(adapter);
+
+        likeButton = (ImageButton) findViewById(R.id.like_button);
+        likeButton.setVisibility(View.GONE);
 
         planItemListView = (ListView) findViewById(R.id.plan_item_list_view);
 

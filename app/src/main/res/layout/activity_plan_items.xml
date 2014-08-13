@@ -8,31 +8,38 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="kke.travelplan.PlanItemsActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Spinner
+        android:id="@+id/date_spinner"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/checkBox" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Spinner
-                android:id="@+id/date_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지도"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/date_spinner"
+        android:layout_toEndOf="@+id/date_spinner"
+        android:layout_alignBottom="@+id/like_button"
+        android:id="@+id/checkBox" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="지도" />
-        </LinearLayout>
+    <ListView
+        android:id="@+id/plan_item_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_spinner"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+    </ListView>
 
-        <ListView
-            android:id="@+id/plan_item_list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        </ListView>
-    </LinearLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/like_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_action_not_important" />
 
 </RelativeLayout>
