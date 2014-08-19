@@ -2,28 +2,43 @@ package kke.travelplan;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import kke.travelplan.util.DateFormats;
+import kke.travelplan.util.JsonHttpUtil;
+import kke.travelplan.util.JsonResponse;
+
 public class AddPlanActivity extends Activity {
 
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    private TextView startDateTextView;
-    private TextView endDateTextView;
+    private EditText titleText;
+    private EditText locationText;
+    private TextView startDateText;
+    private TextView endDateText;
+    private CheckBox isPublicCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plan);
-        startDateTextView = (TextView) findViewById(R.id.start_date_textview);
-        endDateTextView = (TextView) findViewById(R.id.end_date_textview);
+        titleText = (EditText) findViewById(R.id.title_text);
+        locationText = (EditText) findViewById(R.id.location_text);
+        startDateText = (TextView) findViewById(R.id.start_date_text);
+        endDateText = (TextView) findViewById(R.id.end_date_text);
+        isPublicCheckbox = (CheckBox) findViewById(R.id.is_public_checkbox);
     }
 
 
@@ -53,7 +68,7 @@ public class AddPlanActivity extends Activity {
                 Calendar cal = Calendar.getInstance();
                 cal.clear();
                 cal.set(year, monthOfYear, dayOfMonth);
-                startDateTextView.setText(df.format(cal.getTime()));
+                startDateText.setText(df.format(cal.getTime()));
 
             }
 
@@ -73,7 +88,7 @@ public class AddPlanActivity extends Activity {
                 Calendar cal = Calendar.getInstance();
                 cal.clear();
                 cal.set(year, monthOfYear, dayOfMonth);
-                endDateTextView.setText(df.format(cal.getTime()));
+                endDateText.setText(df.format(cal.getTime()));
             }
         };
         Calendar cal = Calendar.getInstance();
@@ -82,7 +97,42 @@ public class AddPlanActivity extends Activity {
 
     }
 
-    public void saveButtonOnClick(View view) {
-        finish();
+    public void saveButtonOnClick(final View view) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setMessage("계획을 저장 중입니다.");
+        dialog.setCancelable(false);
+        dialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                postPlan(dialog);
+            }
+        }).start();
+    }
+
+    public boolean postPlan(final ProgressDialog progressDialog) {
+        Plan plan = new Plan();
+        plan.setName(titleText.getText().toString());
+        plan.setLocation(locationText.getText().toString());
+        plan.setStartDate(DateFormats.parseDate(startDateText.getText().toString()));
+        plan.setEndDate(DateFormats.parseDate(endDateText.getText().toString()));
+        plan.setPublic(!isPublicCheckbox.isChecked());
+        String url = App.urlPrefix + "/plan/add.tpg";
+        final JsonResponse resp = JsonHttpUtil.post(url, plan.toJson());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (resp.isSuccess()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddPlanActivity.this, "계획을 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddPlanActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return resp.isSuccess();
     }
 }

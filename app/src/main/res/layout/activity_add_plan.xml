@@ -15,22 +15,24 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="여행제목"/>
+            android:hint="여행제목"
+            android:id="@+id/title_text" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="여행지"/>
+            android:hint="여행지"
+            android:id="@+id/location_text" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="시작일"
-            android:onClick="startDateButtonOnClick"/>
+            android:onClick="startDateButtonOnClick" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0000-00-00"
-            android:id="@+id/start_date_textview"/>
+            android:id="@+id/start_date_text"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,12 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0000-00-00"
-            android:id="@+id/end_date_textview"/>
+            android:id="@+id/end_date_text"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비공개"/>
+            android:text="비공개"
+            android:checked="false"
+            android:id="@+id/is_public_checkbox" />
 
         <Button
             android:layout_width="fill_parent"
