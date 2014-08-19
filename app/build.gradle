@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -28,4 +33,5 @@ dependencies {
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v13:19.+'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
 }

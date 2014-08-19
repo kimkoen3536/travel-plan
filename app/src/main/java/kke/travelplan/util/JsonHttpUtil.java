@@ -1,7 +1,6 @@
 package kke.travelplan.util;
 
-import android.util.JsonReader;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -11,45 +10,41 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 public class JsonHttpUtil {
+    public static final ObjectMapper objectMapper = new ObjectMapper();
+
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public static JsonResponse post(String url, String requestJson) {
-        try {
-            RequestBody body = RequestBody.create(JSON, requestJson);
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .build();
+    public static JsonResponse get(String url) {
+        Request req = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        return request(req);
+    }
 
+    public static JsonResponse post(String url, String requestJson) {
+        RequestBody body = RequestBody.create(JSON, requestJson);
+        Request req = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        return request(req);
+    }
+
+    public static JsonResponse request(Request req) {
+        try {
             OkHttpClient client = new OkHttpClient();
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(req).execute();
             if (response.code() != HttpURLConnection.HTTP_OK) {
                 return JsonResponse.error(response.code(), "HTTP 에러: " + response.code());
             }
-
             ResponseBody respBody = response.body();
-            JsonReader reader = new JsonReader(respBody.charStream());
-            reader.beginObject();
-            JsonResponse jsonResp = new JsonResponse();
-            while (reader.hasNext()) {
-                String name = reader.nextName();
-                if (name.equals("success")) {
-                    jsonResp.setSuccess(reader.nextBoolean());
-                } else if (name.equals("code")) {
-                    jsonResp.setCode(reader.nextInt());
-                } else if (name.equals("message")) {
-                    jsonResp.setMessage(reader.nextString());
-                } else {
-                    jsonResp.put(name, reader.nextString());
-                }
-            }
-            reader.endObject();
-            reader.close();
-            return jsonResp;
+            Map<String, Object> map = objectMapper.readValue(respBody.charStream(), Map.class);
+            return JsonResponse.from(map);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("IO 에러남", e);
         }
     }

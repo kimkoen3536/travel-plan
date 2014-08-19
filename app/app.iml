@@ -80,11 +80,14 @@
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.4.2" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-4.2.42" level="project" />
     <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v13-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.4.2" level="project" />
   </component>
 </module>
 
