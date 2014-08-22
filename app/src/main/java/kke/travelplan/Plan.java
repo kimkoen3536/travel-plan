@@ -12,7 +12,7 @@ import kke.travelplan.util.DateFormats;
 public class Plan {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy. M. d");
 
-    private long id;
+    private int id;
 
     private String name;
 
@@ -47,11 +47,11 @@ public class Plan {
         this.likeCount = likeCount;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

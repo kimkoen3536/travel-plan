@@ -2,8 +2,10 @@ package kke.travelplan;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,12 +16,16 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import kke.travelplan.util.DateFormats;
 import kke.travelplan.util.JsonHttpUtil;
 import kke.travelplan.util.JsonResponse;
+
+import static android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class MyPlansFragment extends Fragment {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -37,13 +43,12 @@ public class MyPlansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_my_plans, container, false);
         planListView = (ListView) rootView.findViewById(R.id.plan_list_view);
 
         registerForContextMenu(planListView);
 
-        final PlanListAdapter adapter = new PlanListAdapter(getActivity());
-        planListView.setAdapter(adapter);
         planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -51,13 +56,27 @@ public class MyPlansFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshListView();
+    }
+
+    private void refreshListView() {
+        final PlanListAdapter adapter = new PlanListAdapter(getActivity());
+        planListView.setAdapter(adapter);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 loadPlans(adapter);
             }
         }).start();
-        return rootView;
     }
 
     @Override
@@ -75,11 +94,32 @@ public class MyPlansFragment extends Fragment {
                 startActivity(i);
                 return true;
             case 2:
-                new AlertDialog.Builder(getActivity())
-                        .setMessage("'이거'를 정말 삭제하시겠습니까?")
-                        .setPositiveButton("삭제", null)
+                AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+                Plan plan =(Plan)planListView.getItemAtPosition(info.position);
+                final int id = plan.getId();
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setMessage(plan.getName()+" 계획을 삭제하시겠습니까?")
+                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        deletePlan(id);
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                refreshListView();
+                                            }
+                                        });
+                                    }
+                                } ).start();
+
+                            }
+                        })
                         .setNegativeButton("취소", null)
                         .show();
+
         }
         return true;
     }
@@ -87,7 +127,7 @@ public class MyPlansFragment extends Fragment {
     public List<Plan> loadPlans(final PlanListAdapter adapter) {
         String url = App.urlPrefix + "/plan/list.tpg";
         JsonResponse resp = JsonHttpUtil.get(url);
-        List<Plan> plans = new ArrayList<Plan>();
+        final List<Plan> plans = new ArrayList<Plan>();
         List<Map<String, Object>> list = (List<Map<String, Object>>) resp.get("plans");
         for (Map<String, Object> planMap : list) {
             Plan plan = new Plan();
@@ -100,15 +140,24 @@ public class MyPlansFragment extends Fragment {
             plan.setLikeCount((Integer) planMap.get("numLikes"));
             plans.add(plan);
         }
-        for (Plan p : plans) {
-            adapter.add(p);
-        }
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                for (Plan p : plans) {
+                    adapter.add(p);
+                }
                 adapter.notifyDataSetChanged();
             }
         });
         return plans;
+    }
+
+    public void deletePlan(int id){
+        String url = App.urlPrefix + "/plan/delete.tpg";
+        Map<String,Object> map = new LinkedHashMap<String, Object>();
+        map.put("id",id);
+        String json = JsonHttpUtil.json(map);
+        JsonResponse resp = JsonHttpUtil.post(url,json);
     }
 }
