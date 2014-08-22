@@ -1,2 +1,2 @@
 /build
-src/main/java/config.properties
+src/main/resources/application.conf
