@@ -71,32 +71,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.plan_list,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id==R.id.action_new){
-            Intent intent = new Intent(this, AddPlanActivity.class);
-            startActivity(intent);
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -106,7 +86,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
