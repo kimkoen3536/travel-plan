@@ -2,30 +2,52 @@ package kke.travelplan;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Map;
 
-import kke.travelplan.R;
+import kke.travelplan.util.DateFormats;
+import kke.travelplan.util.JsonHttpUtil;
+import kke.travelplan.util.JsonResponse;
 
 public class EditPlanActivity extends Activity {
 
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    private TextView startDateTextView;
-    private TextView endDateTextView;
+
+    private Plan plan = new Plan();
+    private EditText titleText;
+    private EditText locationText;
+    private TextView startDateText;
+    private TextView endDateText;
+    private CheckBox isPrivateCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_plan);
-        startDateTextView = (TextView) findViewById(R.id.start_date_textview);
-        endDateTextView = (TextView) findViewById(R.id.end_date_textview);
+        titleText = (EditText) findViewById(R.id.title_text);
+        locationText = (EditText) findViewById(R.id.location_text);
+        startDateText = (TextView) findViewById(R.id.start_date_text);
+        endDateText = (TextView) findViewById(R.id.end_date_text);
+        isPrivateCheckbox = (CheckBox) findViewById(R.id.is_public_checkbox);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int id = getIntent().getIntExtra("id", -1);
+                loadPlan(id);
+            }
+        }).start();
     }
 
 
@@ -55,12 +77,13 @@ public class EditPlanActivity extends Activity {
                 Calendar cal = Calendar.getInstance();
                 cal.clear();
                 cal.set(year, monthOfYear, dayOfMonth);
-                startDateTextView.setText(df.format(cal.getTime()));
+                startDateText.setText(df.format(cal.getTime()));
 
             }
 
         };
         Calendar cal = Calendar.getInstance();
+        cal.setTime(plan.getStartDate());
         new DatePickerDialog(this, listener, cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DATE)).show();
@@ -75,16 +98,86 @@ public class EditPlanActivity extends Activity {
                 Calendar cal = Calendar.getInstance();
                 cal.clear();
                 cal.set(year, monthOfYear, dayOfMonth);
-                endDateTextView.setText(df.format(cal.getTime()));
+                endDateText.setText(df.format(cal.getTime()));
             }
         };
         Calendar cal = Calendar.getInstance();
+        cal.setTime(plan.getEndDate());
         new DatePickerDialog(this, listener, cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH), cal.get(Calendar.DATE)).show();
 
     }
 
-    public void saveButtonOnClick(View view) {
-        finish();
+    public void editButtonOnClick(View view) {
+
+       final ProgressDialog dialog = new ProgressDialog(this);
+       dialog.setIndeterminate(true);
+       dialog.setMessage("계획을저장중입니다.");
+       dialog.setCancelable(false);
+       dialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                postPlan(dialog);
+
+            }
+        }).start();
     }
+
+    public boolean postPlan(final ProgressDialog progressDialog){
+        plan.setTitle(titleText.getText().toString());
+        plan.setLocation(locationText.getText().toString());
+        plan.setStartDate(DateFormats.parseDate(startDateText.getText().toString()));
+        plan.setEndDate(DateFormats.parseDate(endDateText.getText().toString()));
+        plan.setPublic_(!isPrivateCheckbox.isChecked());
+
+        String url = App.urlPrefix+"/plan/edit.tpg";
+       final JsonResponse resp = JsonHttpUtil.post(url,plan.toJson());
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(resp.isSuccess()){
+                    progressDialog.dismiss();
+                    Toast.makeText(EditPlanActivity.this,"수정을 완료했습니다.",Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(EditPlanActivity.this,resp.getMessage(),Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+        return resp.isSuccess();
+
+    }
+
+    public void loadPlan(int id) {
+        String url = App.urlPrefix + "/plan/get.tpg?id=" + id;
+        JsonResponse resp = JsonHttpUtil.get(url);
+        Map<String,Object> map= (Map<String,Object>) resp.get("plan");
+        plan.setId((Integer)map.get("id"));
+        plan.setTitle((String) map.get("title"));
+        plan.setLocation((String) map.get("location"));
+        plan.setStartDate(DateFormats.parseDate((String) map.get("startDate")));
+        plan.setEndDate(DateFormats.parseDate((String) map.get("endDate")));
+        plan.setPublic_((Boolean) map.get("public_"));
+
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                titleText.setText(plan.getTitle());
+                locationText.setText(plan.getLocation());
+                startDateText.setText(df.format(plan.getStartDate()));
+                endDateText.setText(df.format(plan.getEndDate()));
+                isPrivateCheckbox.setChecked(!plan.isPublic_());
+            }
+        });
+
+    }
+
+
+
 }

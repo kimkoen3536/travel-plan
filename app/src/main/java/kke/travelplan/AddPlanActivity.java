@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,11 +112,11 @@ public class AddPlanActivity extends Activity {
 
     public boolean postPlan(final ProgressDialog progressDialog) {
         Plan plan = new Plan();
-        plan.setName(titleText.getText().toString());
+        plan.setTitle(titleText.getText().toString());
         plan.setLocation(locationText.getText().toString());
         plan.setStartDate(DateFormats.parseDate(startDateText.getText().toString()));
         plan.setEndDate(DateFormats.parseDate(endDateText.getText().toString()));
-        plan.setPublic(!isPublicCheckbox.isChecked());
+        plan.setPublic_(!isPublicCheckbox.isChecked());
         String url = App.urlPrefix + "/plan/add.tpg";
         final JsonResponse resp = JsonHttpUtil.post(url, plan.toJson());
         runOnUiThread(new Runnable() {

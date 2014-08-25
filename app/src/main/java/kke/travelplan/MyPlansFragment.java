@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import kke.travelplan.util.DateFormats;
 import kke.travelplan.util.JsonHttpUtil;
@@ -88,17 +86,18 @@ public class MyPlansFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        Plan plan = (Plan) planListView.getItemAtPosition(info.position);
+        final int id = plan.getId();
         switch (item.getItemId()) {
             case 1:
                 Intent i = new Intent(getActivity(), EditPlanActivity.class);
+                i.putExtra("id", id);
                 startActivity(i);
                 return true;
             case 2:
-                AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-                Plan plan =(Plan)planListView.getItemAtPosition(info.position);
-                final int id = plan.getId();
                 AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setMessage(plan.getName()+" 계획을 삭제하시겠습니까?")
+                        .setMessage(plan.getTitle() + " 계획을 삭제하시겠습니까?")
                         .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -113,7 +112,7 @@ public class MyPlansFragment extends Fragment {
                                             }
                                         });
                                     }
-                                } ).start();
+                                }).start();
 
                             }
                         })
@@ -132,12 +131,12 @@ public class MyPlansFragment extends Fragment {
         for (Map<String, Object> planMap : list) {
             Plan plan = new Plan();
             plan.setId((Integer) planMap.get("id"));
-            plan.setName((String) planMap.get("title"));
+            plan.setTitle((String) planMap.get("title"));
             plan.setLocation((String) planMap.get("location"));
             plan.setStartDate(DateFormats.parseDate((String) planMap.get("startDate")));
             plan.setEndDate(DateFormats.parseDate((String) planMap.get("endDate")));
-            plan.setPublic((Boolean) planMap.get("public_"));
-            plan.setLikeCount((Integer) planMap.get("numLikes"));
+            plan.setPublic_((Boolean) planMap.get("public_"));
+            plan.setNumLikes((Integer) planMap.get("numLikes"));
             plans.add(plan);
         }
 
@@ -153,11 +152,12 @@ public class MyPlansFragment extends Fragment {
         return plans;
     }
 
-    public void deletePlan(int id){
+    public void deletePlan(int id) {
         String url = App.urlPrefix + "/plan/delete.tpg";
-        Map<String,Object> map = new LinkedHashMap<String, Object>();
-        map.put("id",id);
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("id", id);
         String json = JsonHttpUtil.json(map);
-        JsonResponse resp = JsonHttpUtil.post(url,json);
+        JsonResponse resp = JsonHttpUtil.post(url, json);
+
     }
 }

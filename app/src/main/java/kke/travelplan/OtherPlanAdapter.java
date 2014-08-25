@@ -25,10 +25,10 @@ public class OtherPlanAdapter extends ArrayAdapter<Plan> {
         TextView likeCountText = (TextView) rootView.findViewById(R.id.like_count_text);
 
         Plan plan = getItem(position);
-        planNameText.setText(plan.getName());
+        planNameText.setText(plan.getTitle());
         periodText.setText(plan.getPeriodText());
         accountNameText.setText(plan.getAccountName());
-        likeCountText.setText(String.valueOf(plan.getLikeCount()));
+        likeCountText.setText(String.valueOf(plan.getNumLikes()));
         return rootView;
     }
 }

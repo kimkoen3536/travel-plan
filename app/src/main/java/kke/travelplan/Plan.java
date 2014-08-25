@@ -1,20 +1,18 @@
 package kke.travelplan;
 
-import android.util.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import kke.travelplan.util.DateFormats;
 
 public class Plan {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy. M. d");
 
     private int id;
 
-    private String name;
+    private String title;
 
     private String location;
 
@@ -26,25 +24,25 @@ public class Plan {
 
     private boolean public_;
 
-    private int likeCount;
+    private int numLikes;
 
     public Plan() {
     }
 
-    public Plan(String name, Date date) {
-        this(name, date, date);
+    public Plan(String title, Date date) {
+        this(title, date, date);
     }
 
-    public Plan(String name, Date startDate, Date endDate) {
-        this.name = name;
+    public Plan(String title, Date startDate, Date endDate) {
+        this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Plan(String name, Date startDate, Date endDate, String accountName, int likeCount) {
-        this(name, startDate, endDate);
+    public Plan(String title, Date startDate, Date endDate, String accountName, int numLikes) {
+        this(title, startDate, endDate);
         this.accountName = accountName;
-        this.likeCount = likeCount;
+        this.numLikes = numLikes;
     }
 
     public int getId() {
@@ -55,11 +53,11 @@ public class Plan {
         this.id = id;
     }
 
-    public boolean isPublic() {
+    public boolean isPublic_() {
         return public_;
     }
 
-    public void setPublic(boolean public_) {
+    public void setPublic_(boolean public_) {
         this.public_ = public_;
     }
 
@@ -71,12 +69,12 @@ public class Plan {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getStartDate() {
@@ -103,34 +101,26 @@ public class Plan {
         this.accountName = accountName;
     }
 
-    public int getLikeCount() {
-        return likeCount;
+    public int getNumLikes() {
+        return numLikes;
     }
 
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
+    public void setNumLikes(int numLikes) {
+        this.numLikes = numLikes;
     }
 
+    @JsonIgnore
     public String getPeriodText() {
         return "<" + df.format(getStartDate()) + " ~ " + df.format(getEndDate()) + ">";
     }
 
     public String toJson() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            StringWriter stringWriter = new StringWriter();
-            JsonWriter jsonWriter = new JsonWriter(stringWriter);
-            jsonWriter.beginObject();
-            jsonWriter.name("title").value(this.getName());
-            jsonWriter.name("location").value(this.getLocation());
-            jsonWriter.name("start_date").value(DateFormats.date.format(this.getStartDate()));
-            jsonWriter.name("end_date").value(DateFormats.date.format(this.getEndDate()));
-            jsonWriter.name("is_public").value(this.isPublic());
-            jsonWriter.endObject();
-            jsonWriter.close();
-            return stringWriter.toString();
-        } catch (IOException e) {
-            // 있을 수 없음
-            throw new RuntimeException("있을 수 없는 에러가 발생했다.", e);
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("json 에러", e);
         }
     }
 }

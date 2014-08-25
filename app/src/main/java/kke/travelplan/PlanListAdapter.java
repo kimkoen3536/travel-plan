@@ -25,7 +25,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.adapter_plan, parent, false);
         TextView planNameTextView = (TextView) itemView.findViewById(R.id.plan_name_textview);
-        planNameTextView.setText(plan.getName());
+        planNameTextView.setText(plan.getTitle());
         TextView planDateRangeTextView = (TextView) itemView.findViewById(R.id.plan_date_range_textview);
         String startDate = df.format(plan.getStartDate());
         String endDate = df.format(plan.getEndDate());
