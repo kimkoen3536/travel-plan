@@ -155,16 +155,8 @@ public class EditPlanActivity extends Activity {
     }
 
     public void loadPlan(int id) {
-        String url = App.urlPrefix + "/plan/get.tpg?id=" + id;
-        JsonResponse resp = JsonHttpUtil.get(url);
-        Map<String,Object> map= (Map<String,Object>) resp.get("plan");
-        plan.setId((Integer)map.get("id"));
-        plan.setTitle((String) map.get("title"));
-        plan.setLocation((String) map.get("location"));
-        plan.setStartDate(DateFormats.parseDate((String) map.get("startDate")));
-        plan.setEndDate(DateFormats.parseDate((String) map.get("endDate")));
-        plan.setPublic_((Boolean) map.get("public_"));
-
+        PlanService service = PlanService.getInstance();
+        plan = service.get(id);
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {

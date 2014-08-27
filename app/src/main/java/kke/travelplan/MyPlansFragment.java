@@ -54,12 +54,12 @@ public class MyPlansFragment extends Fragment {
         planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Plan plan = (Plan) planListView.getItemAtPosition(position);
                 Intent i = new Intent(getActivity(), PlanItemsActivity.class);
+                i.putExtra("id", plan.getId());
                 startActivity(i);
             }
         });
-
-
         return rootView;
     }
 
