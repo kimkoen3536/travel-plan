@@ -3,6 +3,7 @@ package kke.travelplan;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +12,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.util.List;
+
 import kke.travelplan.R;
+import kke.travelplan.util.LocalItem;
+import kke.travelplan.util.NaverApi;
 
 public class SearchPlaceActivity extends Activity {
     private EditText searchEditText;
@@ -73,6 +78,22 @@ public class SearchPlaceActivity extends Activity {
     }
 
     public void searchButtonOnClick(View view) {
+        final String s = searchEditText.getText().toString();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<LocalItem> items = NaverApi.localSearch(s);
+                for(LocalItem item : items){
+                    Log.d("searchPlaceActivity","제목 : "+item.getTitle());
+                    Log.d("searchPlaceActivity","주소 : " + item.getAddress());
+                    Log.d("searchPlaceACtivity","도로명 :" + item.getRoadAddress());
+                    Log.d("searchPlaceActivity" ,"x좌표 : " + item.getMapX());
+                    Log.d("searchPlaceACtivity","y좌표 : " + item.getMapY());
+                    Log.d("seachPlaceActivity"," ---- ");
+                }
+            }
+        });
+        t.start();
         recentSearchesLayout.setVisibility(View.GONE);
         searchResultsLayout.setVisibility(View.VISIBLE);
     }

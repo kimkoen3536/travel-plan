@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,13 +25,15 @@
             android:text="검색"
             android:onClick="searchButtonOnClick"/>
 
-        <TextView
-            android:id="@+id/address_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/place_search_button"
-            android:layout_alignParentLeft="true"
-            android:hint="주소"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/editText"
+                android:layout_toLeftOf="@+id/place_search_button"
+                android:layout_toStartOf="@+id/place_search_button"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
         </RelativeLayout>
 
@@ -63,19 +66,22 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="갤러리"/>
+                android:text="갤러리"
+                android:onClick="galleryButtonOnClick"/>
 
         </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="사진파일명"/>
+        <ImageView
+            android:layout_width="157dp"
+            android:layout_height="176dp"
+            android:id="@+id/gallery_image_View"/>
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="552dp"
             android:layout_height="wrap_content"
-            android:hint="메모내용"/>
+            android:hint="메모내용"
+            android:id ="@+id/place_memo_text"
+            android:layout_weight="0.15" />
 
         <Button
             android:layout_width="wrap_content"
