@@ -15,9 +15,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-/**
- * Created by K.eun on 2014-10-11.
- */
 public class NaverApi {
     public static List<LocalItem> localSearch(String query) {
         try {
@@ -25,7 +22,8 @@ public class NaverApi {
             String url = "http://openapi.naver.com/search" +
                     "?key=e850ce60cf990846cf358db3f6f22185" +
                     "&target=local" +
-                    "&query=" + encodedQuery;
+                    "&display=20" +
+                    "&query="  + encodedQuery;
             URLConnection conn = new URL(url).openConnection();
             conn.connect();
             InputStream input = conn.getInputStream();

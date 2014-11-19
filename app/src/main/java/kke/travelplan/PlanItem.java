@@ -5,9 +5,7 @@ public class PlanItem {
     private String address;
     private String type;
 
-    public PlanItem(){
 
-    }
     public PlanItem(String name,String address,String type){
         this.name = name;
         this.address = address;

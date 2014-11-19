@@ -25,11 +25,11 @@
             android:text="검색"
             android:onClick="searchButtonOnClick"/>
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:id="@+id/editText"
+                android:id="@+id/address_text_view"
                 android:layout_toLeftOf="@+id/place_search_button"
                 android:layout_toStartOf="@+id/place_search_button"
                 android:layout_alignParentLeft="true"

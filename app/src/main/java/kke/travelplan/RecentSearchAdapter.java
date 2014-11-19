@@ -17,6 +17,7 @@ public class RecentSearchAdapter extends ArrayAdapter<SearchItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         SearchItem item = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.adapter_recent_search, parent, false);

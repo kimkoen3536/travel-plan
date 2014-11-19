@@ -16,27 +16,37 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="이름"/>
+            android:hint="이름"
+            android:id="@+id/name_text"/>
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일(아이디)"/>
+            android:hint="이메일(아이디)"
+            android:id="@+id/email_text"/>
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="비밀번호"/>
+            android:hint="비밀번호"
+            android:id="@+id/password_text"/>
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="비밀번호 확인"/>
+            android:hint="비밀번호 확인"
+            android:id="@+id/password_confirm_text"/>
 
-        <EditText
-            android:layout_width="fill_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="생년월일"/>
+            android:text="생년월일"
+            android:onClick="birthButtonOnClick" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0000-00-00"
+            android:id="@+id/birth_text"/>
 
         <Button
             android:layout_width="fill_parent"
