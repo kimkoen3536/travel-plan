@@ -26,6 +26,7 @@ public class SignUpFormActivity extends Activity {
     private EditText emailText;
     private EditText passwordText;
     private EditText passwordConfirmText;
+    private EditText accountNameText;
     private TextView birthText;
 
 
@@ -33,10 +34,11 @@ public class SignUpFormActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_form);
-        nameText = (EditText) findViewById(R.id.name_text);
         emailText = (EditText) findViewById(R.id.email_text);
         passwordText = (EditText) findViewById(R.id.password_text);
         passwordConfirmText = (EditText) findViewById(R.id.password_confirm_text);
+        accountNameText = (EditText) findViewById(R.id.account_name_text);
+        nameText = (EditText) findViewById(R.id.name_text);
         birthText = (TextView) findViewById(R.id.birth_text);
 
     }
@@ -81,42 +83,44 @@ public class SignUpFormActivity extends Activity {
 
     public void confirmButtonOnClick(final View view) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setIndeterminate(true);
-        dialog.setMessage("회원가입중입니다.");
-        dialog.setCancelable(false);
-        dialog.show();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                postUser(dialog);
-//            }
-//        }).start();
-    }
+        if (passwordText != passwordConfirmText)
+        {dialog.setMessage("비밀번호 입력이 같지 않습니다.");}
+        else {
+            dialog.setIndeterminate(true);
+            dialog.setMessage("회원가입중입니다.");
+            dialog.setCancelable(false);
+            dialog.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    postUser(dialog);
+                }
+            }).start();}}
 
-    //   public boolean postUser(final ProgressDialog progressDialog) {
-    //       Plan plan = new Plan();
-    //       plan.setTitle(titleText.getText().toString());
-    //       plan.setLocation(locationText.getText().toString());
-    //       plan.setStartDate(DateFormats.parseDate(startDateText.getText().toString()));
-    //       plan.setEndDate(DateFormats.parseDate(endDateText.getText().toString()));
-    //       plan.setPublic_(!isPublicCheckbox.isChecked());
-    //       String url = App.urlPrefix + "/plan/add.tpg";
-    //       final JsonResponse resp = JsonHttpUtil.post(url, plan.toJson());
-    //       runOnUiThread(new Runnable() {
-  /*  @Override
-    public void run() {*/
-        //               if (resp.isSuccess()) {
-        //                   progressDialog.dismiss();
-        //                   Toast.makeText(SignUpFormActivity.this, "계획을 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
-        //                  finish();
-        //              } else {
-        //                 progressDialog.dismiss();
-  /*                  Toast.makeText(SignUpFormActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+    public boolean postUser(final ProgressDialog progressDialog) {
+        User user = new User();
+        user.setEmail(emailText.getText().toString());
+        user.setPassword(passwordText.getText().toString());
+        user.setAccountName(accountNameText.getText().toString());
+        user.setName(nameText.getText().toString());
+        user.setBirthDate(DateFormats.parseDate(birthText.getText().toString()));
+        String url = App.urlPrefix + "/user/add.tpg";
+        final JsonResponse resp = JsonHttpUtil.post(url, user.toJson());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (resp.isSuccess()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SignUpFormActivity.this, "계획을 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(SignUpFormActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
         return resp.isSuccess();
     }
-*/
-    }
+}
+
 
