@@ -109,6 +109,7 @@ public class AddPlanActivity extends Activity {
             }
         }).start();
     }
+    
 
     public boolean postPlan(final ProgressDialog progressDialog) {
         Plan plan = new Plan();

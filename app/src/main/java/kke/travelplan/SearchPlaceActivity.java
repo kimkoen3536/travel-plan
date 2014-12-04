@@ -50,13 +50,14 @@ public class SearchPlaceActivity extends Activity {
 
         final Application app = this.getApplication();
 
+
+
         searchEditText = (EditText) findViewById(R.id.search_edit_text);
         searchButton = (Button) findViewById(R.id.search_button);
         recentSearchesLayout = (LinearLayout) findViewById(R.id.recent_searches_layout);
         recentSearchesListView = (ListView) findViewById(R.id.recent_searches_list_view);
         searchResultsLayout = (LinearLayout) findViewById(R.id.search_results_layout);
         searchResultsListView = (ListView) findViewById(R.id.search_results_list_view);
-
 
         srAdapter = new SearchResultAdapter(this);
 
@@ -66,7 +67,13 @@ public class SearchPlaceActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SearchResultItem srItem = (SearchResultItem) searchResultsListView.getItemAtPosition(position);
                 System.out.println("MapX ::::::::: " + srItem.getMapX());
+                Intent intent = getIntent();
+                int plan_id = intent.getIntExtra("plan_id",0);
+                String plan_date = intent.getStringExtra("plan_date");
+
                 Intent i = new Intent(app, AddPlaceActivity.class);
+                i.putExtra("plan_id", plan_id);
+                i.putExtra("plan_date",plan_date);
                 i.putExtra("Address", srItem.getAddress());
                 i.putExtra("RoadAddress", srItem.getRoadAddress());
                 i.putExtra("Name", srItem.getName());

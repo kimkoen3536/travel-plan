@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_list);
+       setContentView(R.layout.activity_plan_list);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();

@@ -41,6 +41,9 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
 
     DateSpinnerHelper helper;
 
+    Intent intent = getIntent();
+    String plan_date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -92,7 +95,13 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_new) {
-            Intent i = new Intent(PlanItemsActivity.this, AddPlaceActivity.class);
+
+            Intent i = new Intent(PlanItemsActivity.this, SelectActivity.class);
+            Intent intent = getIntent();
+                int plan_id = intent.getIntExtra("id",0);
+                i.putExtra("plan_id", plan_id);
+                i.putExtra("plan_date",plan_date);
+            System.out.println("planid2 :::::::::::::::::::::::::" + plan_id);
             startActivity(i);
             return true;
         }
@@ -125,6 +134,8 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         Date selectedDate = helper.getSelectedDate();
         cal.setTime(selectedDate);
         Log.d("PlanItemsActivity", "invalidateDateAdapters(): " + DateFormats.date.format(selectedDate));
+         plan_date =  DateFormats.date.format(selectedDate);
+
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);

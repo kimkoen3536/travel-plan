@@ -1,10 +1,13 @@
 package kke.travelplan;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import org.apache.commons.logging.Log;
 
 public class SignUpResultActivity extends Activity {
 
@@ -35,6 +38,7 @@ public class SignUpResultActivity extends Activity {
     }
 
     public void confirmButtonOnClick(View view) {
-        finish();
+        Intent i = new Intent(SignUpResultActivity.this,LoginActivity.class);
+        startActivity(i);
     }
 }

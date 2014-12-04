@@ -56,6 +56,7 @@ public class MyPlansFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Plan plan = (Plan) planListView.getItemAtPosition(position);
                 Intent i = new Intent(getActivity(), PlanItemsActivity.class);
+                System.out.println("plan.getId() ::::::::::::::::::::::::::::::"+plan.getId());
                 i.putExtra("id", plan.getId());
                 startActivity(i);
             }

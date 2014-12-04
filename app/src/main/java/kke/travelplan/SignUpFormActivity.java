@@ -82,10 +82,18 @@ public class SignUpFormActivity extends Activity {
     }
 
     public void confirmButtonOnClick(final View view) {
-        final ProgressDialog dialog = new ProgressDialog(this);
-        if (passwordText != passwordConfirmText)
-        {dialog.setMessage("비밀번호 입력이 같지 않습니다.");}
+
+        if(emailText.getText().toString().equals(("")) ||nameText.getText().toString().equals(("")) ||
+                passwordConfirmText.getText().toString().equals(("")) || passwordText.getText().toString().equals(("")) ||
+                birthText.getText().toString().equals(("")) || accountNameText.getText().toString().equals(("")) ){
+            Toast.makeText(SignUpFormActivity.this,"입력되지 않은 항목이 있습니다",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!passwordText.getText().toString().equals(passwordConfirmText.getText().toString()))
+        { Toast.makeText(SignUpFormActivity.this,"비밀번호가 다릅니다",Toast.LENGTH_SHORT).show();
+            return;}
         else {
+            final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setIndeterminate(true);
             dialog.setMessage("회원가입중입니다.");
             dialog.setCancelable(false);
@@ -111,8 +119,8 @@ public class SignUpFormActivity extends Activity {
             public void run() {
                 if (resp.isSuccess()) {
                     progressDialog.dismiss();
-                    Toast.makeText(SignUpFormActivity.this, "계획을 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Intent i = new Intent(SignUpFormActivity.this,SignUpResultActivity.class);
+                    startActivity(i);
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(SignUpFormActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
