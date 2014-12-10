@@ -348,4 +348,11 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    public void mapButtonOnClick(final View view) {
+        Intent i = new Intent(PlanItemsActivity.this, PlaceMapActivity.class);
+        startActivity(i);
+
+
+    }
 }
