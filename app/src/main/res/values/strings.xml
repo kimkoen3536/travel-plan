@@ -23,5 +23,6 @@
     <string name="title_activity_add_transport_acvitivy">AddTransportAcvitivy</string>
     <string name="title_activity_edit_place">EditPlaceActivity</string>
     <string name="title_activity_place_map">PlaceMapActivity</string>
+    <string name="str_done">완료</string>
 
 </resources>
