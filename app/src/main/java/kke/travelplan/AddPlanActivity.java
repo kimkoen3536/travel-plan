@@ -108,6 +108,8 @@ public class AddPlanActivity extends Activity {
                 postPlan(dialog);
             }
         }).start();
+
+
     }
     
 
@@ -127,6 +129,7 @@ public class AddPlanActivity extends Activity {
                     progressDialog.dismiss();
                     Toast.makeText(AddPlanActivity.this, "계획을 성공적으로 등록했습니다.", Toast.LENGTH_SHORT).show();
                     finish();
+
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(AddPlanActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();

@@ -7,17 +7,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/type_image_view"
+        <TextView
+            android:id="@+id/type_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17" />
 
         <TextView
             android:id="@+id/name_text_view"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content" />
+             android:layout_height="wrap_content"
+            android:layout_weight="0.20" />
         </LinearLayout>
 
     <TextView

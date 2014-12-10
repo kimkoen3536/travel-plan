@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class Place {
 
+    private int id;
+
     private int plan_id;
 
     private Date plan_date;
@@ -130,6 +132,14 @@ public class Place {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String toJson() {

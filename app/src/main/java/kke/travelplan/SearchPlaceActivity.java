@@ -80,6 +80,7 @@ public class SearchPlaceActivity extends Activity {
                 i.putExtra("MapX", srItem.getMapX());
                 i.putExtra("MapY", srItem.getMapY());
                 startActivity(i);
+                finish();
             }
         });
 

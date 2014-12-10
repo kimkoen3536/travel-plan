@@ -27,8 +27,8 @@ public class OtherPlanActivity extends Activity {
         planItemListView = (ListView) findViewById(R.id.plan_item_list_view);
 
         PlanItemListAdapter itemAdapter = new PlanItemListAdapter(this);
-        itemAdapter.add(new PlanItem("한라산", "제주도서귀포시", "관광"));
-        itemAdapter.add(new PlanItem("까페베네", "계룡엄사면", "음식"));
+     //   itemAdapter.add(new PlanItem("한라산", "제주도서귀포시", "관광"));
+     //   itemAdapter.add(new PlanItem("까페베네", "계룡엄사면", "음식"));
         planItemListView.setAdapter(itemAdapter);
     }
 }

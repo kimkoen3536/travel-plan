@@ -21,5 +21,6 @@
     <string name="title_activity_add_place">AddPlaceActivity</string>
     <string name="title_activity_add_transport">AddTransportActivity</string>
     <string name="title_activity_add_transport_acvitivy">AddTransportAcvitivy</string>
+    <string name="title_activity_edit_place">EditPlaceActivity</string>
 
 </resources>

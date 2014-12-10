@@ -123,7 +123,6 @@ public class MyPlansFragment extends Fragment {
                         })
                         .setNegativeButton("취소", null)
                         .show();
-
         }
         return true;
     }

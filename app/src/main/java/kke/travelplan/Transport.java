@@ -3,12 +3,18 @@ package kke.travelplan;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by K.eun on 2014-11-30.
  */
 public class Transport {
+
+    private static SimpleDateFormat df = new SimpleDateFormat("yyyy. M. d");
+
+
+    private int id;
 
     private int plan_id;
     private Date plan_date;
@@ -17,6 +23,7 @@ public class Transport {
     private String duration;
     private String type;
     private String memo;
+
 
     public Transport() {
 
@@ -28,6 +35,14 @@ public class Transport {
         this.duration = duration;
         this.type = type;
         this.memo = memo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {
