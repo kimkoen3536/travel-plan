@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -23,6 +24,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import kke.travelplan.util.JsonHttpUtil;
+import kke.travelplan.util.JsonResponse;
 
 /**
  * A login screen that offers login via email/password.
@@ -48,10 +53,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
     private View mProgressView;
     private View mLoginFormView;
 
+    User user = new User();
+    String getEmail = "";
+    String getPassword = "";
+    String getAccountname = "";
+    int getId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if(android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -96,35 +114,66 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             return;
         }
 
+
+
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
+            System.out.println("a");
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
+        } else if (TextUtils.isEmpty(password)) {
+            System.out.println("b");
+            mPasswordView.setError(getString(R.string.error_null_password));
+            focusView = mPasswordView;
+            cancel = true;
         } else if (!isEmailValid(email)) {
+             System.out.println("c");
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+        } else if(!isPasswordValid(password)) {
+             System.out.println("d");
+             mPasswordView.setError(getString(R.string.error_invalid_password));
+             focusView = mPasswordView;
+             cancel = true;
+        } else {
+            user = loaduserInfo(email);
+
+            getEmail = user.getEmail();
+            getPassword = user.getPassword();
+            getAccountname = user.getAccountName();
+            int getId = user.getId();
+            System.out.println("getEmail1 : " + user.getEmail());
+            System.out.println("getPassword1 : " + user.getPassword());
+            System.out.println("getAccountName1 : " + user.getAccountName());
+            System.out.println("getId1 : " + user.getId());
+
+            if (!email.equals(getEmail)) {
+                System.out.println("아이디실패");
+                mEmailView.setError(getString(R.string.error_match_email));
+                focusView = mEmailView;
+                cancel = true;
+            }else if(!password.equals(getPassword)) {
+                System.out.println("패스워드실패");
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                focusView = mPasswordView;
+                cancel = true;
+            }
         }
+
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -138,6 +187,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             mAuthTask.execute((Void) null);
         }
     }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -269,6 +319,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
 
             if (success) {
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                System.out.println("user.getId() ::::::::::::::::::::::::::::::"+user.getId());
+                System.out.println("user.getaccountname() ::::::::::::::::::::::::::::::"+user.getAccountName());
+
+
+                i.putExtra("user_id",user.getId());
+                i.putExtra("account_name",user.getAccountName());
+
                 startActivity(i);
                 finish();
             } else {
@@ -283,6 +340,32 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
             showProgress(false);
         }
     }
+
+    public User loaduserInfo(String UserId) {
+        System.out.println ("UserId ;;;;;;;;;;;;;;;;;;;;;;;;" + UserId);
+        String url = App.urlPrefix + "/user/list.tpg?userId=" + UserId;
+        System.out.println("url ::::::::: " + url);
+        JsonResponse resp = JsonHttpUtil.get(url);
+        Map<String, Object> users = (Map<String, Object>) resp.get("userInfo");
+        User userinfo = new User();
+
+        if(users != null) {
+            userinfo.setEmail((String) users.get("email"));
+            userinfo.setPassword((String) users.get("password"));
+            userinfo.setAccountName((String) users.get("accountName"));
+            userinfo.setId((Integer) users.get("id"));
+        } else {
+            userinfo.setEmail("");
+            userinfo.setPassword("");
+            userinfo.setAccountName("");
+            userinfo.setId(0);
+        }
+            System.out.println("getEmail ::::" + userinfo.getEmail());
+            System.out.println("getPassword ::::" + userinfo.getPassword());
+            System.out.println("getId ::::" + userinfo.getId());
+        return userinfo;
+    }
+
 }
 
 

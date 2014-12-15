@@ -12,6 +12,8 @@ public class Plan {
 
     private int id;
 
+    private int user_id;
+
     private String title;
 
     private String location;
@@ -107,6 +109,14 @@ public class Plan {
 
     public void setNumLikes(int numLikes) {
         this.numLikes = numLikes;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     @JsonIgnore

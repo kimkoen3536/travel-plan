@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -67,6 +68,15 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         super.onCreate(savedInstanceState);
         final Application app = this.getApplication();
 
+        if(android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        Intent intent = getIntent();
+        plan_date = intent.getStringExtra("plan_date");
+        System.out.println("get_plan_date : " + plan_date);
+
 
 
         setContentView(R.layout.activity_plan_items);
@@ -91,14 +101,15 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
 
         final PlanItemListAdapter itemAdapter = new PlanItemListAdapter(this);
         planItemListView.setAdapter(itemAdapter);
-
+        System.out.println("a");
         int id = getIntent().getIntExtra("id", -1);
+        System.out.println("b");
         loadPlan(id);
-
+        System.out.println("e");
         planItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                System.out.println("f");
                 Place place = (Place) planItemListView.getItemAtPosition(position);
                 Intent i = new Intent(app,EditPlaceActivity.class);
                 System.out.println("plan.editgetId() ::::::::::::::::::::::::::::::"+place.getId());
@@ -183,14 +194,18 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         new Thread(new Runnable() {
             @Override
             public void run() {
+                System.out.println("c");
                 PlanService service = PlanService.getInstance();
                 plan = service.get(id);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println("d");
                         setTitle(plan.getTitle());
                         helper = new DateSpinnerHelper(plan.getStartDate(),plan.getEndDate());
                         invalidateDateAdapters();
+                        refreshListView();
+
                     }
                 });
             }
@@ -235,6 +250,7 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         }
         dayAdapter.notifyDataSetChanged();
         daySpinner.setSelection(day - helper.getDayFrom());
+
     }
 
     @SuppressWarnings("ResourceType")
@@ -252,9 +268,32 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         helper.setSelectedDate(date);
         invalidateDateAdapters();
         refreshListView();
+    }
+
+    private void refreshListView() {
+        //    Date selectedDate = helper.getSelectedDate();
+        //  plan_date =   DateFormats.date.format(selectedDate);
+        //   System.out.println ("plan_date ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
+        final PlanItemListAdapter adapter = new PlanItemListAdapter(this);
+
+        // if(adapter.get_plan_date == plan_date);
+        planItemListView.setAdapter(adapter);
+
+        // }
+        Intent intent = getIntent();
+        plan_id = intent.getIntExtra("id",0);
+        Calendar cal = Calendar.getInstance();
+
+        System.out.println ("plan_id ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_id);
+        System.out.println ("plan_date22 ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
 
 
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loadPlaces(adapter, plan_id ,plan_date);
+            }
+        }).start();
     }
 
 
@@ -275,31 +314,7 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         //refreshListView();
     }
 
-    private void refreshListView() {
-    //    Date selectedDate = helper.getSelectedDate();
-      //  plan_date =   DateFormats.date.format(selectedDate);
-     //   System.out.println ("plan_date ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
-        final PlanItemListAdapter adapter = new PlanItemListAdapter(this);
 
-        // if(adapter.get_plan_date == plan_date);
-            planItemListView.setAdapter(adapter);
-
-        // }
-        Intent intent = getIntent();
-        plan_id = intent.getIntExtra("id",0);
-        Calendar cal = Calendar.getInstance();
-
-        System.out.println ("plan_id ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_id);
-        System.out.println ("plan_date22 ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                loadPlaces(adapter, plan_id ,plan_date);
-            }
-        }).start();
-    }
 
 
     public List<Place> loadPlaces(final PlanItemListAdapter adapter,int plan_id, String plan_date) {
@@ -310,9 +325,7 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         System.out.println("url ::::::::: " + url);
         JsonResponse resp = JsonHttpUtil.get(url);
         final List<Place> places = new ArrayList<Place>();
-         System.out.println("places :::::::::" + resp.get("place"));
         List<Map<String, Object>> list = (List<Map<String, Object>>) resp.get("place");
-
         for (Map<String, Object> placeMap : list) {
             Place place = new Place();
             place.setPlan_id((Integer)placeMap.get("plan_id"));
@@ -325,6 +338,9 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
             place.setMap_x((Integer)placeMap.get("map_x"));
             place.setMap_y((Integer)placeMap.get("map_y"));
             places.add(place);
+            System.out.println("places :::::: " + places);
+            System.out.println("places(0) :::::: " + places.get(0).toString());
+
 
         }
 
@@ -351,6 +367,11 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
 
     public void mapButtonOnClick(final View view) {
         Intent i = new Intent(PlanItemsActivity.this, PlaceMapActivity.class);
+        Intent intent = getIntent();
+        plan_id = intent.getIntExtra("id",0);
+        i.putExtra("plan_id", plan_id);
+        System.out.println("plan_date???????" + plan_date);
+        i.putExtra("plan_date", plan_date);
         startActivity(i);
 
 

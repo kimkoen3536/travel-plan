@@ -101,7 +101,26 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new MyPlansFragment();
+
+                    Intent intent = getIntent();
+                    int user_id = intent.getIntExtra("user_id",0);
+                    String account_name = intent.getStringExtra("account_name");
+                    System.out.println("main_user_id : " + user_id);
+                    System.out.println("main_account_name : " + account_name);
+
+                    /*FragmentManager fragmentManager = getFragmentManager();
+
+                    MyPlansFragment fragment = new MyPlansFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("user_id",user_id);
+                    bundle.putString("account_name", account_name);
+                    fragment.setArguments(bundle);
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.my_plans, fragment);
+                    fragmentTransaction.commit();*/
+
+                    return new MyPlansFragment(user_id, account_name);
                 case 1:
                     return new OtherPlansFragment();
                 case 2:

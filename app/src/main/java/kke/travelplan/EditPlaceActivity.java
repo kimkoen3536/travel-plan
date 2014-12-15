@@ -5,6 +5,7 @@
     import android.content.Intent;
     import android.graphics.Bitmap;
     import android.graphics.BitmapFactory;
+    import android.graphics.drawable.BitmapDrawable;
     import android.net.Uri;
     import android.os.Bundle;
     import android.provider.MediaStore;
@@ -20,11 +21,13 @@
     import android.widget.TextView;
     import android.widget.Toast;
 
+    import java.io.ByteArrayInputStream;
     import java.io.ByteArrayOutputStream;
     import java.io.FileNotFoundException;
     import java.io.IOException;
     import java.text.SimpleDateFormat;
     import java.util.Calendar;
+    import java.util.List;
 
     import kke.travelplan.util.DateFormats;
     import kke.travelplan.util.JsonHttpUtil;
@@ -48,6 +51,7 @@
         private String placeType;
         private EditText placeMemoText;
         private Uri imageUrl;
+        ByteArrayInputStream in;
 
 
         @Override
@@ -196,7 +200,7 @@
                 System.out.println("imageUrl ::::::::::: " + imageUrl);
                 System.out.println("Bitmap ::::::::::: " + bm);
                 ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+                bm.compress(Bitmap.CompressFormat.JPEG, 50, byteArray);
                 b = byteArray.toByteArray();
                 System.out.println("byte bitmap : ::::::::::::: " + b);
 
@@ -219,7 +223,7 @@
             place.setType(placeType);
             place.setPicture(b);
             place.setMemo(placeMemoText.getText().toString());
-            String url = App.urlPrefix + "/place/add.tpg";
+            String url = App.urlPrefix + "/place/edit.tpg";
             final JsonResponse resp = JsonHttpUtil.post(url, place.toJson());
             runOnUiThread(new Runnable() {
                 @Override
@@ -247,13 +251,15 @@
                 @Override
                 public void run() {
 
-
-                 //   byte[] b = place.getPicture();
-                 //   Bitmap image = BitmapFactory.decodeByteArray(b,0,b.length);
+                   byte[] b =place.getPicture();
+                    System.out.println("byte_b : " + b);
+                    System.out.println("byte_b.length : " + b.length);
+                    Bitmap image = BitmapFactory.decodeByteArray(b,0,b.length);
+                    BitmapDrawable drawable = new BitmapDrawable(getResources(),image);
                     addressText.setText(place.getRoad_address());
                     placeMemoText.setText(place.getMemo());
                     addressText.setText(place.getName()+"("+place.getRoad_address()+")");
-                //    galleryImageView.setImageBitmap(image);
+                    galleryImageView.setImageBitmap(image);
 
 
                 }

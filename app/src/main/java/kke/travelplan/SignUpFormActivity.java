@@ -92,6 +92,10 @@ public class SignUpFormActivity extends Activity {
         if (!passwordText.getText().toString().equals(passwordConfirmText.getText().toString()))
         { Toast.makeText(SignUpFormActivity.this,"비밀번호가 다릅니다",Toast.LENGTH_SHORT).show();
             return;}
+        if(passwordText.getText().length() <= 4) {
+            Toast.makeText(SignUpFormActivity.this,"비밀번호를 4자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
+            return;
+        }
         else {
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setIndeterminate(true);

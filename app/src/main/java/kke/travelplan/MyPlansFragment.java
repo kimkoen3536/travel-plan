@@ -1,5 +1,6 @@
 package kke.travelplan;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -32,19 +33,48 @@ public class MyPlansFragment extends Fragment {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     private ListView planListView;
+    int getUser_id = 0;
+    String getAccount_name = null;
 
-    public MyPlansFragment() {
+    public MyPlansFragment(int user_id, String account_name) {
+        this.getUser_id = user_id;
+        this.getAccount_name = account_name;
+        System.out.println("getUser_id : " + getUser_id );
+        System.out.println("getAccount_name : " + getAccount_name );
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        setRetainInstance(true);
+
+       /* Bundle extra = getArguments();
+        int extra_id = extra.getInt("user_id");
+        String account_name = extra.getString("account_name");
+
+        System.out.println("extra_id1 : " + extra_id);*/
+        // System.out.println("account_name : " + account_name);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /*Bundle extra = getArguments();
+        int extra_id = extra.getInt("user_id");
+        String account_name = extra.getString("account_name");
+
+        System.out.println("extra_id2 : " + extra_id);*/
+        // System.out.println("account_name : " + account_name);
 
         View rootView = inflater.inflate(R.layout.fragment_my_plans, container, false);
         planListView = (ListView) rootView.findViewById(R.id.plan_list_view);
@@ -139,6 +169,8 @@ public class MyPlansFragment extends Fragment {
             return true;
         } else if (id==R.id.action_new){
             Intent intent = new Intent(getActivity(), AddPlanActivity.class);
+            intent.putExtra("user_id", getUser_id);
+            intent.putExtra("account_name", getAccount_name);
             startActivity(intent);
 
         }
@@ -146,7 +178,8 @@ public class MyPlansFragment extends Fragment {
     }
 
     public List<Plan> loadPlans(final PlanListAdapter adapter) {
-        String url = App.urlPrefix + "/plan/list.tpg";
+        String url = App.urlPrefix + "/plan/list.tpg?user_id=" + getUser_id;
+        System.out.println("myplan_load : " + url);
         JsonResponse resp = JsonHttpUtil.get(url);
         final List<Plan> plans = new ArrayList<Plan>();
         List<Map<String, Object>> list = (List<Map<String, Object>>) resp.get("plans");

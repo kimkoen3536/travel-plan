@@ -2,8 +2,12 @@ package kke.travelplan;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import kke.travelplan.util.DateFormats;
@@ -42,11 +46,7 @@ public class PlaceService {
         place.setMap_y((Integer)map.get("map_y"));
         place.setMemo((String)map.get("memo"));
 
-        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-
-           //    byteArray.toByteArray()
-        System.out.println("picture2 ::::::::: " + map.get("picture"));
-        //place.setPicture((byte[])map.get("picture"));
+        place.setPicture((byte[])map.get("picture").toString().getBytes());
         return place;
     }
 }

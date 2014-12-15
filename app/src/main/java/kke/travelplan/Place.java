@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by K.eun on 2014-12-04.

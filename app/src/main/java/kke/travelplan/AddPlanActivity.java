@@ -3,6 +3,7 @@ package kke.travelplan;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -114,7 +115,16 @@ public class AddPlanActivity extends Activity {
     
 
     public boolean postPlan(final ProgressDialog progressDialog) {
+        Intent intent = getIntent();
+        int getUser_id = intent.getIntExtra("user_id", 0);
+        String getAccount_name = intent.getStringExtra("account_name");
+
+        System.out.println("add_getUser_id : " + getUser_id);
+        System.out.println("getAccount_name : " + getAccount_name);
+
         Plan plan = new Plan();
+        plan.setAccountName(getAccount_name);
+        plan.setUser_id(getUser_id);
         plan.setTitle(titleText.getText().toString());
         plan.setLocation(locationText.getText().toString());
         plan.setStartDate(DateFormats.parseDate(startDateText.getText().toString()));
