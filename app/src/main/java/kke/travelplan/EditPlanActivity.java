@@ -36,6 +36,7 @@ public class EditPlanActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_plan);
+        setTitle("계획수정");
         titleText = (EditText) findViewById(R.id.title_text);
         locationText = (EditText) findViewById(R.id.location_text);
         startDateText = (TextView) findViewById(R.id.start_date_text);

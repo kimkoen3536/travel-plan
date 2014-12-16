@@ -106,6 +106,18 @@
             android:name=".PlaceMapActivity"
             android:label="@string/title_activity_place_map" >
         </activity>
+        <activity
+            android:name=".Other_Plan_Adapter"
+            android:label="@string/title_activity_other__plan__adapter" >
+        </activity>
+        <activity
+            android:name=".PlaceCheckActivity"
+            android:label="@string/title_activity_place_cheack" >
+        </activity>
+        <activity
+            android:name=".FavoritesPlanActivity"
+            android:label="@string/FavoritesPlanActivity_title" >
+        </activity>
     </application>
 
 </manifest>

@@ -52,14 +52,12 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
     private ListView planItemListView;
 
     private Plan plan;
-    private Place place;
 
     DateSpinnerHelper helper;
 
     Intent intent = getIntent();
     String plan_date;
     int plan_id;
-    Date get_plan_date;
 
 
     @Override

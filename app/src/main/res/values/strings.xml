@@ -24,5 +24,8 @@
     <string name="title_activity_edit_place">EditPlaceActivity</string>
     <string name="title_activity_place_map">PlaceMapActivity</string>
     <string name="str_done">완료</string>
+    <string name="title_activity_other__plan__adapter">Other_Plan_Adapter</string>
+    <string name="title_activity_place_cheack">PlaceCheackActivity</string>
+    <string name="FavoritesPlanActivity_title">FavoritesPlanActivity</string>
 
 </resources>

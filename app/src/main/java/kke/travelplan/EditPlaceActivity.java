@@ -58,6 +58,7 @@
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_edit_place);
+            setTitle("장소수정");
 
             Intent intent = getIntent();
             String Address = "";

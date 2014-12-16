@@ -2,12 +2,10 @@ package kke.travelplan;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,8 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.nhn.android.mapviewer.overlay.NMapCalloutOverlay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,14 +26,17 @@ import kke.travelplan.util.DateSpinnerHelper;
 import kke.travelplan.util.JsonHttpUtil;
 import kke.travelplan.util.JsonResponse;
 
-public class OtherPlanActivity extends Activity implements AdapterView.OnItemSelectedListener {
+/**
+ * Created by K.eun on 2014-12-17.
+ */
+public class FavoritesPlanActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private Spinner yearSpinner;
 
     private Spinner monthSpinner;
 
     private Spinner daySpinner;
 
-    private  ArrayAdapter<Integer> yearAdapter;
+    private ArrayAdapter<Integer> yearAdapter;
 
     private ArrayAdapter<Integer> monthAdapter;
 
@@ -72,7 +71,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         System.out.println("get_plan_id : " + plan_id);
         System.out.println("get_plan_user_id : " + user_id);
 
-        setContentView(R.layout.activity_other_plan);
+        setContentView(R.layout.activity_plan_items);
         yearSpinner = (Spinner) findViewById(R.id.year_spinner);
         monthSpinner = (Spinner) findViewById(R.id.month_spinner);
         daySpinner = (Spinner) findViewById(R.id.day_spinner);
@@ -91,28 +90,6 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         daySpinner.setAdapter(dayAdapter);
         System.out.println("dayAdapter ::: " + dayAdapter);
         planItemListView = (ListView) findViewById(R.id.plan_item_list_view);
-
-        ic_action = (ImageButton)findViewById(R.id.like_button);
-        System.out.println("ic_action : " + ic_action);
-
-        final boolean likes_check = loadFavorites(user_id, plan_id);
-        System.out.println("likes_check : " + likes_check);
-        if(likes_check == true) {
-            ic_action.setSelected(true);
-        }
-
-        ic_action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ic_action.isSelected() == false) {
-                    ic_action.setSelected(true);
-                    addFavorites(user_id, plan_id);
-                } else if(ic_action.isSelected() == true) {
-                    ic_action.setSelected(false);
-                    deleteFavorites(user_id, plan_id);
-                }
-            }
-        });
 
         final PlanItemListAdapter itemAdapter = new PlanItemListAdapter(this);
         planItemListView.setAdapter(itemAdapter);
@@ -238,17 +215,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
     }
 
 
-    public void deletePlace(int id) {
-        String url = App.urlPrefix + "/place/delete.tpg";
-        Map<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("id", id);
-        String json = JsonHttpUtil.json(map);
-        JsonResponse resp = JsonHttpUtil.post(url, json);
-
-    }
-
-
-    public void onResume() {
+   public void onResume() {
         super.onResume();
 
 
@@ -294,29 +261,6 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         return places;
     }
 
-    public boolean addFavorites(int user_id, int plan_id ) {
-        Favorites favorites = new Favorites();
-        favorites.setPlan_id(plan_id);
-        favorites.setUser_id(user_id);
-        String url = App.urlPrefix + "/favorites/add.tpg";
-        final JsonResponse resp = JsonHttpUtil.post(url, favorites.toJson());
-        System.out.println("farvorites : " + url);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (resp.isSuccess()) {
-
-                    Toast.makeText(OtherPlanActivity.this, "즐겨찾기에 등록되었습니다.", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    Toast.makeText(OtherPlanActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        return resp.isSuccess();
-    }
-
     public boolean loadFavorites(int user_id, int plan_id) {
         String url = App.urlPrefix + "/favorites/get.tpg?user_id=" + user_id + "&plan_id=" + plan_id;
         final JsonResponse resp = JsonHttpUtil.get(url);
@@ -329,37 +273,13 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         return likes_check;
     }
 
-    public boolean deleteFavorites(int user_id, int plan_id) {
-        String url = App.urlPrefix + "/favorites/delete.tpg";
-        Map<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put("user_id", user_id);
-        map.put("plan_id", plan_id);
-        String json = JsonHttpUtil.json(map);
-        final JsonResponse resp = JsonHttpUtil.post(url, json);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (resp.isSuccess()) {
-
-                    Toast.makeText(OtherPlanActivity.this, "즐겨찾기에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    Toast.makeText(OtherPlanActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        return resp.isSuccess();
-
-    }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
     public void mapButtonOnClick(final View view) {
-        Intent i = new Intent(OtherPlanActivity.this, PlaceMapActivity.class);
+        Intent i = new Intent(FavoritesPlanActivity.this, PlaceMapActivity.class);
         Intent intent = getIntent();
         int plan_id = intent.getIntExtra("plan_id",0);
         i.putExtra("plan_id", plan_id);
@@ -368,5 +288,3 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         startActivity(i);
     }
 }
-
-

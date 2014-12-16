@@ -1,34 +1,43 @@
 package kke.travelplan;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class OtherPlanAdapter extends ArrayAdapter<Plan> {
+import kke.travelplan.util.DateFormats;
+
+
+public class OtherPlanAdapter extends ArrayAdapter<Place> {
+    private final Context context;
+
+    String get_plan_date;
+
     public OtherPlanAdapter(Context context) {
-        super(context, R.layout.adapter_other_plan);
+        super(context, R.layout.adapter_other__plan);
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Context context = getContext();
-        LayoutInflater layoutInflater =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rootView = layoutInflater.inflate(R.layout.adapter_other_plan, parent, false);
-
-        TextView planNameText = (TextView) rootView.findViewById(R.id.plan_name_text);
-        TextView periodText = (TextView) rootView.findViewById(R.id.period_text);
-        TextView accountNameText = (TextView) rootView.findViewById(R.id.account_name_text);
-        TextView likeCountText = (TextView) rootView.findViewById(R.id.like_count_text);
-
-        Plan plan = getItem(position);
-        planNameText.setText(plan.getTitle());
-        periodText.setText(plan.getPeriodText());
-        accountNameText.setText(plan.getAccountName());
-        likeCountText.setText(String.valueOf(plan.getNumLikes()));
-        return rootView;
+        Place place = getItem(position);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View itemView = inflater.inflate(R.layout.adapter_other__plan, parent, false);
+        TextView typeTextView = (TextView)itemView.findViewById(R.id.type_text_view);
+        TextView nameTextView = (TextView)itemView.findViewById(R.id.name_text_view);
+        TextView addressTextView = (TextView)itemView.findViewById(R.id.address_text_view);
+        //    typeImageView.setImageResource(R.drawable.ic_launcher);
+        nameTextView.setText(place.getName());
+        addressTextView.setText(place.getRoad_address());
+        typeTextView.setText(place.getType());
+        get_plan_date = DateFormats.date.format(place.getPlan_date());
+        return itemView;
     }
+
+
+
 }
