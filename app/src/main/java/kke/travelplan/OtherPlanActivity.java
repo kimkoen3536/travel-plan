@@ -53,6 +53,10 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
     String plan_date;
     //int plan_id;
 
+     int user_id = 0;
+     int favor_plan_id = 0;
+     int favor_user_id = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,11 +70,13 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
 
         Intent intent = getIntent();
         plan_date = intent.getStringExtra("plan_date");
-        final int plan_id = getIntent().getIntExtra("plan_id", -1);
-        final int user_id = getIntent().getIntExtra("user_id", -1);
+          user_id = getIntent().getIntExtra("user_id", -1);
+          favor_plan_id = getIntent().getIntExtra("favor_plan_id", -1);
+          favor_user_id = getIntent().getIntExtra("favor_user_id", -1);
         System.out.println("get_plan_date : " + plan_date);
-        System.out.println("get_plan_id : " + plan_id);
-        System.out.println("get_plan_user_id : " + user_id);
+        System.out.println("get_user_id : " + user_id);
+        System.out.println("get_favor_plan_id : " + favor_plan_id);
+        System.out.println("get_favor_user_id : " + favor_user_id);
 
         setContentView(R.layout.activity_other_plan);
         yearSpinner = (Spinner) findViewById(R.id.year_spinner);
@@ -95,7 +101,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         ic_action = (ImageButton)findViewById(R.id.like_button);
         System.out.println("ic_action : " + ic_action);
 
-        final boolean likes_check = loadFavorites(user_id, plan_id);
+        final boolean likes_check = loadFavorites(user_id, favor_plan_id, favor_user_id);
         System.out.println("likes_check : " + likes_check);
         if(likes_check == true) {
             ic_action.setSelected(true);
@@ -106,10 +112,10 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
             public void onClick(View v) {
                 if(ic_action.isSelected() == false) {
                     ic_action.setSelected(true);
-                    addFavorites(user_id, plan_id);
+                    addFavorites(user_id, favor_plan_id,favor_user_id);
                 } else if(ic_action.isSelected() == true) {
                     ic_action.setSelected(false);
-                    deleteFavorites(user_id, plan_id);
+                    deleteFavorites(user_id, favor_plan_id, favor_user_id);
                 }
             }
         });
@@ -117,7 +123,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         final PlanItemListAdapter itemAdapter = new PlanItemListAdapter(this);
         planItemListView.setAdapter(itemAdapter);
 
-        loadPlan(plan_id);
+        loadPlan(favor_plan_id);
 
         planItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,13 +141,11 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("c");
                 PlanService service = PlanService.getInstance();
                 plan = service.get(id);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("d");
                         setTitle(plan.getTitle());
                         helper = new DateSpinnerHelper(plan.getStartDate(),plan.getEndDate());
                         invalidateDateAdapters();
@@ -163,8 +167,6 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         Log.d("PlanItemsActivity", "invalidateDateAdapters(): " + DateFormats.date.format(selectedDate));
         plan_date =  DateFormats.date.format(selectedDate);
 
-
-        System.out.println("plan_dateaaaaaaa ::::" + plan_date);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -222,12 +224,8 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
 
         // }
         Intent intent = getIntent();
-        final int plan_id = intent.getIntExtra("plan_id",0);
+        final int plan_id = intent.getIntExtra("favor_plan_id",0);
         Calendar cal = Calendar.getInstance();
-
-        System.out.println ("plan_id ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_id);
-        System.out.println ("plan_date22 ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
-
 
         new Thread(new Runnable() {
             @Override
@@ -238,7 +236,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
     }
 
 
-    public void deletePlace(int id) {
+ /*   public void deletePlace(int id) {
         String url = App.urlPrefix + "/place/delete.tpg";
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("id", id);
@@ -247,7 +245,7 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
 
     }
 
-
+*/
     public void onResume() {
         super.onResume();
 
@@ -258,11 +256,11 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
 
 
 
-    public List<Place> loadPlaces(final PlanItemListAdapter adapter,int plan_id, String plan_date) {
+    public List<Place> loadPlaces(final PlanItemListAdapter adapter,int favor_plan_id, String plan_date) {
         Intent intent = getIntent();
         System.out.println("plan_date ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_date);
-        System.out.println("plan_id2 ;;;;;;;;;;;;;;;;;;;;;;;;" + plan_id);
-        String url = App.urlPrefix + "/place/get.tpg?plan_id=" + plan_id + "&plan_date=" + plan_date;
+        System.out.println("plan_id2 ;;;;;;;;;;;;;;;;;;;;;;;;" + favor_plan_id);
+        String url = App.urlPrefix + "/place/get.tpg?plan_id=" + favor_plan_id + "&plan_date=" + plan_date;
         System.out.println("url ::::::::: " + url);
         JsonResponse resp = JsonHttpUtil.get(url);
         final List<Place> places = new ArrayList<Place>();
@@ -294,10 +292,12 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         return places;
     }
 
-    public boolean addFavorites(int user_id, int plan_id ) {
+    public boolean addFavorites(int user_id, int favor_plan_id, int favor_user_id ) {
         Favorites favorites = new Favorites();
-        favorites.setPlan_id(plan_id);
         favorites.setUser_id(user_id);
+        favorites.setFavor_plan_id(favor_plan_id);
+        favorites.setFavor_user_id(favor_user_id);
+        System.out.println("favor_user_id : " + favor_user_id);
         String url = App.urlPrefix + "/favorites/add.tpg";
         final JsonResponse resp = JsonHttpUtil.post(url, favorites.toJson());
         System.out.println("farvorites : " + url);
@@ -317,8 +317,9 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         return resp.isSuccess();
     }
 
-    public boolean loadFavorites(int user_id, int plan_id) {
-        String url = App.urlPrefix + "/favorites/get.tpg?user_id=" + user_id + "&plan_id=" + plan_id;
+    public boolean loadFavorites(int user_id, int favor_plan_id, int favor_user_id) {
+        String url = App.urlPrefix + "/favorites/get.tpg?user_id=" + user_id + "&favor_plan_id=" + favor_plan_id + "&favor_user_id=" + favor_user_id;
+        System.out.println("loadFavorites : " + url);
         final JsonResponse resp = JsonHttpUtil.get(url);
         Map<String, Object> map = (Map<String, Object>) resp.get("favorites");
         System.out.println("loadFavorites_map : " + map);
@@ -329,11 +330,12 @@ public class OtherPlanActivity extends Activity implements AdapterView.OnItemSel
         return likes_check;
     }
 
-    public boolean deleteFavorites(int user_id, int plan_id) {
+    public boolean deleteFavorites(int user_id, int favor_plan_id, int favor_user_id) {
         String url = App.urlPrefix + "/favorites/delete.tpg";
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("user_id", user_id);
-        map.put("plan_id", plan_id);
+        map.put("favor_plan_id", favor_plan_id);
+        map.put("favor_user_id", favor_user_id);
         String json = JsonHttpUtil.json(map);
         final JsonResponse resp = JsonHttpUtil.post(url, json);
         runOnUiThread(new Runnable() {

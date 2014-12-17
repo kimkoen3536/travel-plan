@@ -102,20 +102,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             Intent intent = getIntent();
             int user_id = intent.getIntExtra("user_id",0);
+
             switch (position) {
                 case 0:
-
-
                     String account_name = intent.getStringExtra("account_name");
                     System.out.println("main_user_id : " + user_id);
                     System.out.println("main_account_name : " + account_name);
                     return new MyPlansFragment(user_id, account_name);
                 case 1:
-                    return new OtherPlansFragment();
+                    return new OtherPlansFragment(user_id);
                 case 2:
                     return new FavoritesFragment(user_id);
-                case 3:
-                    return new SettingsFragment();
+            //    case 3:
+             //       return new SettingsFragment();
             }
             return null;
         }
@@ -123,7 +122,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         @Override
         public int getCount() {
             // Show 4 total pages.
-            return 4;
+            return 3;
         }
 
         @Override
@@ -136,8 +135,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section3).toUpperCase(l);
-                case 3:
-                    return getString(R.string.title_section4).toUpperCase(l);
+               // case 3:
+               //     return getString(R.string.title_section4).toUpperCase(l);
             }
             return null;
         }

@@ -12,24 +12,17 @@ import java.util.Date;
 public class Favorites {
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy. M. d");
 
-    private int plan_id;
-
     private int user_id;
+    private int favor_plan_id;
+    private int favor_user_id;
 
     public Favorites() {
     }
 
-    public Favorites(int user_id, int plan_id) {
+    public Favorites(int user_id, int favor_plan_id, int favor_user_id) {
         this.user_id = user_id;
-        this.plan_id = plan_id;
-    }
-
-    public int getPlan_id() {
-        return plan_id;
-    }
-
-    public void setPlan_id(int plan_id) {
-        this.plan_id = plan_id;
+        this.favor_plan_id = favor_plan_id;
+        this.favor_user_id = favor_user_id;
     }
 
     public int getUser_id() {
@@ -38,6 +31,22 @@ public class Favorites {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public int getFavor_plan_id() {
+        return favor_plan_id;
+    }
+
+    public void setFavor_plan_id(int favor_plan_id) {
+        this.favor_plan_id = favor_plan_id;
+    }
+
+    public int getFavor_user_id() {
+        return favor_user_id;
+    }
+
+    public void setFavor_user_id(int favor_user_id) {
+        this.favor_user_id = favor_user_id;
     }
 
     public String toJson() {

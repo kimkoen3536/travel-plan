@@ -260,7 +260,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         mEmailView.setAdapter(adapter);
     }
 
-    public void findIdButtonOnClick(View view) {
+  /*  public void findIdButtonOnClick(View view) {
         Intent i = new Intent(this, FindIdActivity.class);
         startActivity(i);
     }
@@ -269,7 +269,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
         Intent i = new Intent(this, FindPasswordActivity.class);
         startActivity(i);
     }
-
+*/
     public void signUpButtonOnClick(View view) {
         Intent i = new Intent(this, SignUpFormActivity.class);
         startActivity(i);

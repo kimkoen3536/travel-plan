@@ -40,7 +40,7 @@ public class FavoritesFragment extends Fragment implements ListView.OnItemClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(android.os.Build.VERSION.SDK_INT > 9) {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
@@ -55,7 +55,10 @@ public class FavoritesFragment extends Fragment implements ListView.OnItemClickL
         listView = (ListView) rootView.findViewById(R.id.list_view);
         OtherPlanFragmentAdapter adapter = new OtherPlanFragmentAdapter(getActivity());
 
-        listView.setAdapter(adapter);
+        //adapter.add(new Plan("제주도 여행기", parse("2013-12-17"), parse("2014-12-18"), "안드로이드", 0));
+        //listView.setAdapter(adapter);
+        //return rootView;
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +76,7 @@ public class FavoritesFragment extends Fragment implements ListView.OnItemClickL
     public void onResume() {
         super.onResume();
         refreshListView();
-    }
-    private void refreshListView() {
+    } private void refreshListView() {
         final OtherPlanFragmentAdapter adapter = new OtherPlanFragmentAdapter(getActivity());
         listView.setAdapter(adapter);
 

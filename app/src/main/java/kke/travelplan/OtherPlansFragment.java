@@ -28,9 +28,11 @@ public class OtherPlansFragment extends Fragment implements ListView.OnItemClick
     private SearchView searchView;
 
     private ListView listView;
+    private int getUser_id = 0;
 
-    public OtherPlansFragment() {
+    public OtherPlansFragment(int user_id) {
         // Required empty public constructor
+        this.getUser_id = user_id;
     }
 
     @Override
@@ -54,8 +56,9 @@ public class OtherPlansFragment extends Fragment implements ListView.OnItemClick
                 Plan plan = (Plan) listView.getItemAtPosition(position);
                 Intent i = new Intent(getActivity(), OtherPlanActivity.class);
                 System.out.println("plan.getId() ::::::::::::::::::::::::::::::"+plan.getId());
-                i.putExtra("plan_id", plan.getId());
-                i.putExtra("user_id", plan.getUser_id());
+                i.putExtra("user_id", getUser_id);
+                i.putExtra("favor_plan_id", plan.getId());
+                i.putExtra("favor_user_id", plan.getUser_id());
                 startActivity(i);
             }
         });
