@@ -1,6 +1,8 @@
 package kke.travelplan;
 
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,19 +65,19 @@ public class OtherPlansFragment extends Fragment implements ListView.OnItemClick
                 startActivity(i);
             }
         });
-        return rootView;
-    //    adapter.add(new Plan("제주도 여행", parse("2014-01-01"), parse("2015-03-17"), "purluno", 100));
-    //    adapter.add(new Plan("제도 여행", parse("2013-07-01"), parse("2015-03-17"), "purluo", 10));
-    //    adapter.add(new Plan("제주 여행", parse("2012-12-31"), parse("2015-03-17"), "purlno", 1));
-    //    adapter.add(new Plan("주도 여행", parse("2011-05-05"), parse("2015-03-17"), "puruno", 0));
 
-            }
+        searchView.setQueryHint("검색어를 입력하세요.");
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return rootView;
+    }
 
 
     public void onResume() {
         super.onResume();
         refreshListView();
     }
+
     private void refreshListView() {
         final OtherPlanFragmentAdapter adapter = new OtherPlanFragmentAdapter(getActivity());
         listView.setAdapter(adapter);
@@ -82,13 +85,26 @@ public class OtherPlansFragment extends Fragment implements ListView.OnItemClick
         new Thread(new Runnable() {
             @Override
             public void run() {
-                loadPlans(adapter);
+                loadPlans(adapter, getUser_id);
             }
         }).start();
     }
 
-    public List<Plan> loadPlans(final OtherPlanFragmentAdapter adapter) {
-        String url = App.urlPrefix + "/plan/list2.tpg";
+    private void searchRefreshListView(String query) {
+        final OtherPlanFragmentAdapter adapter = new OtherPlanFragmentAdapter(getActivity());
+        listView.setAdapter(adapter);
+        final String get_query = query;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                searchPlans(adapter, get_query);
+            }
+        }).start();
+    }
+
+    public List<Plan> loadPlans(final OtherPlanFragmentAdapter adapter, int user_id) {
+        String url = App.urlPrefix + "/plan/list2.tpg?user_id=" + user_id;
         JsonResponse resp = JsonHttpUtil.get(url);
         final List<Plan> plans = new ArrayList<Plan>();
         List<Map<String, Object>> list2 = (List<Map<String, Object>>) resp.get("plans");
@@ -132,5 +148,53 @@ public class OtherPlansFragment extends Fragment implements ListView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getActivity(), OtherPlanActivity.class);
         startActivity(i);
+    }
+
+    private OnQueryTextListener queryTextListener = new OnQueryTextListener(){
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            searchRefreshListView(query);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
+
+    public List<Plan> searchPlans(final OtherPlanFragmentAdapter adapter, String query) {
+        String url = App.urlPrefix + "/plan/search.tpg?query=" + query;
+        System.out.println("query1 : " + query);
+        JsonResponse resp = JsonHttpUtil.get(url);
+        System.out.println("search_url : " + url);
+        final List<Plan> plans = new ArrayList<Plan>();
+        List<Map<String, Object>> list2 = (List<Map<String, Object>>) resp.get("plan");
+        for (Map<String, Object> planMap : list2) {
+            Plan plan = new Plan();
+            plan.setId((Integer) planMap.get("id"));
+            plan.setUser_id((Integer) planMap.get("user_id"));
+            plan.setTitle((String) planMap.get("title"));
+            plan.setLocation((String) planMap.get("location"));
+            plan.setStartDate(DateFormats.parseDate((String) planMap.get("startDate")));
+            plan.setEndDate(DateFormats.parseDate((String) planMap.get("endDate")));
+            plan.setPublic_((Boolean) planMap.get("public_"));
+            plan.setAccountName((String)planMap.get("accountName"));
+            System.out.println("account_name_other;;;;" +(String)planMap.get("account_name") );
+            plan.setNumLikes((Integer) planMap.get("numLikes"));
+            plans.add(plan);
+        }
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (Plan p : plans) {
+                    adapter.add(p);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+        return plans;
     }
 }

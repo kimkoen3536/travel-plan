@@ -220,7 +220,6 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         Log.d("PlanItemsActivity", "invalidateDateAdapters(): " + DateFormats.date.format(selectedDate));
          plan_date =  DateFormats.date.format(selectedDate);
 
-
         System.out.println("plan_dateaaaaaaa ::::" + plan_date);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -371,6 +370,7 @@ public class PlanItemsActivity extends Activity implements AdapterView.OnItemSel
         System.out.println("plan_date???????" + plan_date);
         i.putExtra("plan_date", plan_date);
         startActivity(i);
+        finish();
 
 
     }

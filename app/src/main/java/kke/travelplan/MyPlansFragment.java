@@ -140,6 +140,8 @@ public class MyPlansFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         deletePlan(id);
+                                        deletePlace(id);
+                                        deleteFavorites(id);
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -211,8 +213,28 @@ public class MyPlansFragment extends Fragment {
         String url = App.urlPrefix + "/plan/delete.tpg";
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("id", id);
+        System.out.println("deletePlan_id : " + id);
         String json = JsonHttpUtil.json(map);
         JsonResponse resp = JsonHttpUtil.post(url, json);
 
+    }
+
+    public void deletePlace(int id) {
+        String url = App.urlPrefix + "/place/delete2.tpg";
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("id", id);
+        System.out.println("deletePlace_id : " + id);
+        String json = JsonHttpUtil.json(map);
+        JsonResponse resp = JsonHttpUtil.post(url, json);
+
+    }
+
+    public void deleteFavorites(int plan_id) {
+        String url = App.urlPrefix + "/favorites/delete2.tpg";
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("plan_id", plan_id);
+        System.out.println("deletePlace_id : " + plan_id);
+        String json = JsonHttpUtil.json(map);
+        JsonResponse resp = JsonHttpUtil.post(url, json);
     }
 }
