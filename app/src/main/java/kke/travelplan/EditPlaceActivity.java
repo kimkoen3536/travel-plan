@@ -5,7 +5,6 @@
     import android.content.Intent;
     import android.graphics.Bitmap;
     import android.graphics.BitmapFactory;
-    import android.graphics.drawable.BitmapDrawable;
     import android.net.Uri;
     import android.os.Bundle;
     import android.provider.MediaStore;
@@ -13,8 +12,6 @@
     import android.view.MenuItem;
     import android.view.View;
     import android.widget.ArrayAdapter;
-    import android.widget.CheckBox;
-    import android.widget.DatePicker;
     import android.widget.EditText;
     import android.widget.ImageView;
     import android.widget.Spinner;
@@ -26,8 +23,6 @@
     import java.io.FileNotFoundException;
     import java.io.IOException;
     import java.text.SimpleDateFormat;
-    import java.util.Calendar;
-    import java.util.List;
 
     import kke.travelplan.util.DateFormats;
     import kke.travelplan.util.JsonHttpUtil;
@@ -251,18 +246,13 @@
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                   byte[] b =place.getPicture();
-                    System.out.println("byte_b : " + b);
-                    System.out.println("byte_b.length : " + b.length);
-                    Bitmap image = BitmapFactory.decodeByteArray(b,0,b.length);
-                    BitmapDrawable drawable = new BitmapDrawable(getResources(),image);
+                    byte[] bytes = place.getPicture();
+                    Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     addressText.setText(place.getRoad_address());
                     placeMemoText.setText(place.getMemo());
                     addressText.setText(place.getName()+"("+place.getRoad_address()+")");
                     galleryImageView.setImageBitmap(image);
-
-
+                    galleryImageView.refreshDrawableState();
                 }
             });
 
